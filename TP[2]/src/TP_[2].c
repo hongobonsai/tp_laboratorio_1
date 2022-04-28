@@ -13,6 +13,12 @@
 
 struct
 	{
+	char flycode[10];
+	int statusFlight;
+	}typedef Flight;
+
+struct
+	{
 	int id;
 	char name[51];
 	char lastName[51];
@@ -22,14 +28,9 @@ struct
 	int isEmpty;
 	}typedef Passenger;
 
-struct
-	{
-	char flycode[10];
-	int statusFlight;
-	}typedef Flight;
 
 int tp_Dos_MenuPrincipal();
-int initPassengers(Passenger* list, int len);
+int initPassengers(Passenger list[], int len);
 
 int main(void) {
 	setbuf(stdout, NULL);
@@ -41,22 +42,23 @@ int main(void) {
 	int opcionMenuPrincipal;
 	int opcionMenuModificar;
 
+
+
+	initPassengers(pasajeros, 2000);
+
 	do {
 		opcionMenuPrincipal = tp_Dos_MenuPrincipal();
-
-		initPassengers(pasajeros, 2000);
-		printf()
 
 		switch (opcionMenuPrincipal) {
 		case 1:
 			printf("\nMENÚ DE ALTAS\n\n");
 			printf("Ingrese el nombre del pasajero\n");
-			scanf("%s", pasajeros[0].name);
+			gets(pasajeros[0].name);
 			fflush(stdin);
 			printf("Ingrese el apellido del pasajero\n");
-			scanf("%s", pasajeros[0].lastName);
+			gets(pasajeros[0].lastName);
 			printf("Ingrese el codigo de vuelo\n");
-			scanf("%s", pasajeros[0].flycode);
+			gets(pasajeros[0].flycode);
 			printf("Ingrese el estado del vuelo (\n");
 			scanf("%d", &vuelos[0].statusFlight);
 			printf("Ingrese el precio del vuelo\n");
@@ -88,7 +90,6 @@ int main(void) {
 				switch(opcionMenuModificar){
 				case 1:
 					printf("1");
-					initPassengers(pasajeros, 2000);
 					break;
 				case 2:
 					printf("2");
@@ -139,20 +140,19 @@ int tp_Dos_MenuPrincipal() {
 	return auxOpcionMenuPrincipal;
 }
 
-//arrays functions:
+//struct arrays functions:
 
-int initPassengers(Passenger* list, int len)
-{
-	int i;
-	if (len > 0) {
-		for (i = 0; i < len; i++) {
-			 = -1;
+//terminé la más basica ;w;
+int initPassengers(Passenger list[], int len) {
+	return -1;//error
+	if (list != NULL && len > 0) {
+		for (int i = 0; i < len; i++) {
+
+			list[i].isEmpty = 1;
 		}
-		}
-return 0;
+	}
+	return 0;//success
 }
-
-
 
 
 
