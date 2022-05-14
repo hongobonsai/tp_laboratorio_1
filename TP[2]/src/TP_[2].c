@@ -45,7 +45,9 @@ int main(void) {
 	float auxPrice;
 
 	//informar 2
-
+	float precioTotal;
+	float promedioPrecios;
+	int cantidadSuperanPromedio;
 
 
 	Passenger pasajeros[LEN_PASAJEROS];
@@ -71,15 +73,15 @@ int main(void) {
 				if ((findEmptySpace(pasajeros, LEN_PASAJEROS)) != -1) {
 					getValidWord(auxName,
 							"\n\nDATOS DEL PASAJERO:\nIngrese el nombre del pasajero: ",
-							"\nIngrese un nombre valido.", 15);
+							"\nIngrese un nombre valido.", 51);
 					getValidWord(auxLastName,
 							"\nIngrese el apellido del pasajero: ",
-							"\nIngrese un apellido valido.", 15);
+							"\nIngrese un apellido valido.", 51);
 					getValidFloat(&auxPrice, "\nIngrese el precio del pasaje: ",
-							"\nIngrese un precio valido", 999999);
+							"\nIngrese un precio valido", 8);
 					utn_getNumero(&auxTypePassenger,
-							"\nIngrese el tipo de pasajero (1- ESTANDAR, "
-									"2- PREMIUM, 3- EJECUTIVO): ",
+							"\nIngrese el tipo de pasajero (1- ECONOMIC, "
+									"2- BUSSINESS, 3- FIRST CLASS): ",
 							"\nIngrese un tipo valido.", 1, 3, 5);
 
 					/*VALIDAR ESTO*/printf(
@@ -133,14 +135,14 @@ int main(void) {
 						case 1:
 							printf("caso 1"); //nombre
 							getValidWord(auxName, "\nIngrese el nuevo nombre: ",
-									"\nIngrese un nombre valido.", 15);
+									"\nIngrese un nombre valido.", 51);
 							strcpy(pasajeros[indiceSubmenu].name, auxName);
 							break;
 						case 2:
 							printf("caso 2"); //apelido
 							getValidWord(auxLastName,
 									"\nIngrese el nuevo apellido: ",
-									"\nIngrese un apellido valido.", 15);
+									"\nIngrese un apellido valido.", 51);
 							strcpy(pasajeros[indiceSubmenu].lastName,
 									auxLastName);
 							break;
@@ -148,7 +150,8 @@ int main(void) {
 							printf("caso 3"); //precio
 							getValidFloat(&auxPrice,
 									"\nIngrese el nuevo precio del pasaje: ",
-									"\nIngrese un precio valido", 999999);
+									"\nIngrese un precio valido(1- ECONOMIC, "
+									"2- BUSSINESS, 3- FIRST CLASS): ", 8);
 							pasajeros[indiceSubmenu].price = auxPrice;
 							break;
 						case 4:
@@ -212,6 +215,14 @@ int main(void) {
 						printPassenger(pasajeros, LEN_PASAJEROS);
 						break;
 					case 2:
+						averageAndTotalPricePassenger(pasajeros, LEN_PASAJEROS, &precioTotal, &promedioPrecios, &cantidadSuperanPromedio);
+						printf("\ntotal: %.2f prom: %.2f", precioTotal, promedioPrecios);
+
+						printf("\n+-------------------------------------------------------+"
+								"\n|TOTAL          |PROMEDIO       |MAYORES QUE EL PROMEDIO|"
+								"\n+---------------+---------------+-----------------------+");
+						printf("\n|%-15.2f|%-15.2f|%-23d|"
+								"\n+---------------+---------------+-----------------------+", precioTotal, promedioPrecios, cantidadSuperanPromedio);
 					//Total y promedio de los precios de los pasajes, y cuántos pasajeros superan el precio promedio.
 						break;
 					case 3:

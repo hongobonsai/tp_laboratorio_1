@@ -31,5 +31,6 @@ int findPassengerById(Passenger *list, int len, int id);
 int removePassenger(Passenger *list, int len, int id);
 int sortPassengers(Passenger *list, int len, int order);
 int printPassenger(Passenger *list, int len);
+int averageAndTotalPricePassenger(Passenger *list, int len, float *precioTotal, float * promedio, int *superanPromedio);
 
 #endif /* ARRAYPASSENGER_H_ */

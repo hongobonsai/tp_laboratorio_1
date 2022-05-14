@@ -158,22 +158,37 @@ int sortPassengers(Passenger *list, int len, int order) {
 
 int printPassenger(Passenger *list, int len) {
 
+	char tipoChar[12];
+	int tipo;
 	int retorno = -1;
 	if (list != NULL && len > 0) {
 
 	printf(
-			"\n+-----------------------------------------------------------------------------------------------+"
-			"\n|ID             |APELLIDO       |NOMBRE         |PRECIO         |TIPO           |FLYCODE        |"
-			"\n+---------------+---------------+---------------+---------------+---------------+---------------+");
+			"\n+-------------------------------------------------------------------------------------------------------+"
+			"\n|ID             |APELLIDO       |NOMBRE         |PRECIO                 |TIPO           |FLYCODE        |"
+			"\n+---------------+---------------+---------------+-----------------------+---------------+---------------+");
 	for (int i = 0; i < len; i++) {
 		if ((list[i].isEmpty) == 0) {
-//			printf("\n%d %s %s %.2f %d %s", list[i].id, list[i].lastName,
-//					list[i].name, list[i].price, list[i].typePassenger,
-//					list[i].flycode);
-			printf("\n|%-15d|%-15s|%-15s|%-15.2f|%-15d|%-15s|"
-					"\n+-----------------------------------------------------------------------------------------------+", list[i].id,
+
+			tipo = list[i].typePassenger;
+			switch(tipo){
+
+			case 1:
+				strcpy(tipoChar, "ECONOMIC");
+				break;
+			case 2:
+				strcpy(tipoChar, "BUSSINESS");
+				break;
+			case 3:
+				strcpy(tipoChar, "FIRST CLASS");
+				break;
+			}
+
+
+			printf("\n|%-15d|%-15s|%-15s|%-23.2f|%-15s|%-15s|"
+					"\n+-------------------------------------------------------------------------------------------------------+", list[i].id,
 					list[i].lastName, list[i].name, list[i].price,
-					list[i].typePassenger, list[i].flycode);
+					tipoChar, list[i].flycode);
 		}
 	}
 	return 0;
@@ -181,21 +196,36 @@ int printPassenger(Passenger *list, int len) {
 	return retorno;
 }
 
-int averagePassengerPrice(Passenger *list, int len){
+int averageAndTotalPricePassenger(Passenger *list, int len, float *precioTotal, float * promedio, int *superanPromedio){
 	int retorno = -1;
-	float acumuladorPrecio = 0;
+	int contadorPrecios = 0;
+	int contadorSuperan = 0;
+	float acumuladorPrecios = 0;
+	float auxPromedio;
+
 
 
 	if (list != NULL && len > 0) {
 	for (int i = 0; i < len; i++) {
 			if ((list[i].isEmpty) == 0) {
 
-			acumuladorPrecio += list[i].price;
-
+			acumuladorPrecios += list[i].price;
+			contadorPrecios++;
+			printf("\n%.3f", list[i].price);
 			}
 		}
 	retorno = 0;
 	}
+	auxPromedio = acumuladorPrecios / contadorPrecios;
+	*precioTotal = acumuladorPrecios;
+	*promedio = auxPromedio;
+
+	for (int i = 0; i < len; i++) {
+			if (list[i].price > auxPromedio) {
+				contadorSuperan++;
+			}
+		}
+	*superanPromedio = contadorSuperan;
 	return retorno;
 }
 
