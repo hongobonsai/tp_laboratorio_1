@@ -14,15 +14,12 @@
 #include <ctype.h>
 
 #include "Utn.h"
-#include "Arraypassenger.h"
-#include "ArrayFlight.h"
 #include "tp_2_library.h"
+#include "Informes.h"
 
 #define LEN_PASAJEROS 5
-#define LEN_VUELOS 5
+#define LEN_VUELOS LEN_PASAJEROS
 #define MAXIMO_IDS 5000
-
-int sortPassengers(Passenger *list, int len, int order);
 
 int main(void) {
 	setbuf(stdout, NULL);
@@ -226,6 +223,8 @@ int main(void) {
 					//Total y promedio de los precios de los pasajes, y cuántos pasajeros superan el precio promedio.
 						break;
 					case 3:
+						sortPassengersByCode(pasajeros, vuelos, LEN_PASAJEROS, 1);
+						printPassengerByCode(pasajeros, vuelos, LEN_PASAJEROS);
 						break;
 					case 0:
 						break;

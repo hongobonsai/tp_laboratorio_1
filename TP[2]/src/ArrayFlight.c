@@ -71,7 +71,7 @@ int findFlightByCode(Flight *list, int len, char flycode[]) {
 	int retorno = -1;
 	if (list != NULL && len > 0 && flycode != NULL) {
 		for (int i = 0; i < len; i++) {
-			if (list[i].flycode == flycode && list[i].isEmpty == 0) {
+			if ((strcmp(list[i].flycode, flycode)) == 0 && list[i].isEmpty == 0) {
 				retorno = i;
 				break;
 			}
