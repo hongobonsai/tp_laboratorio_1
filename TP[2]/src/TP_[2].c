@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : TP_[2].c
+ Name        : Aux2_TP2.c
  Author      : 
  Version     :
  Copyright   : Your copyright notice
@@ -10,158 +10,248 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
-struct
-	{
-	char flycode[10];
-	int statusFlight;
-	}typedef Flight;
+#include "Utn.h"
+#include "Arraypassenger.h"
+#include "ArrayFlight.h"
+#include "tp_2_library.h"
 
-struct
-	{
-	int id;
-	char name[51];
-	char lastName[51];
-	float price;
-	char flycode[10];
-	int typePassenger;
-	int isEmpty;
-	}typedef Passenger;
+#define LEN_PASAJEROS 5
+#define LEN_VUELOS 5
+#define MAXIMO_IDS 5000
 
-
-int tp_Dos_MenuPrincipal();
-int initPassengers(Passenger list[], int len);
+int sortPassengers(Passenger *list, int len, int order);
 
 int main(void) {
 	setbuf(stdout, NULL);
 
-	//structs
-	Passenger pasajeros[2000];
-	Flight vuelos[2000];
-	//opciones menús
-	int opcionMenuPrincipal;
-	int opcionMenuModificar;
+	int opcionMenu;
+
+	int opcionSubMenu;
+	int validacionSubMenu;
+	int indiceSubmenu;
+
+	int opcionInformes;
+	char auxFlycode[10]; //COMPARTIDA
+
+	int opcionSubmenuUnoInformes;
+
+	int auxId; //passengers
+	int auxTypePassenger;
+	char auxName[51];
+	char auxLastName[51];
+	float auxPrice;
+
+	//informar 2
 
 
 
-	initPassengers(pasajeros, 2000);
+	Passenger pasajeros[LEN_PASAJEROS];
+	Flight vuelos[LEN_VUELOS];
 
-	do {
-		opcionMenuPrincipal = tp_Dos_MenuPrincipal();
+	if ((initPassengers(pasajeros, LEN_PASAJEROS) == 0)
+			&& (initFlights(vuelos, LEN_VUELOS)) == 0) {
+		do {
+			printf("\n*MENU*");
+			printf("\n1. ALTAS.");
+			printf("\n2. MODIFICAR.");
+			printf("\n3. BAJA");
+			printf("\n4. INFORMAR");
+			printf("\n5. CARGA FORZADA");
+			printf("\n6. EXIT\n");
 
-		switch (opcionMenuPrincipal) {
-		case 1:
-			printf("\nMENÚ DE ALTAS\n\n");
-			printf("Ingrese el nombre del pasajero\n");
-			gets(pasajeros[0].name);
-			fflush(stdin);
-			printf("Ingrese el apellido del pasajero\n");
-			gets(pasajeros[0].lastName);
-			printf("Ingrese el codigo de vuelo\n");
-			gets(pasajeros[0].flycode);
-			printf("Ingrese el estado del vuelo (\n");
-			scanf("%d", &vuelos[0].statusFlight);
-			printf("Ingrese el precio del vuelo\n");
-			scanf("%f", &pasajeros[0].price);
-			printf("Ingrese el tipo de pasajero (1, 2, 3\n");
-			scanf("%d", &pasajeros[0].typePassenger);
+			utn_getNumero(&opcionMenu, "", "\nIngrese una opcion valida.", 1, 6,
+					5);
 
-			//asignar ID
-			//levantar Flag empty
-			printf("%s %s %s %f %d", pasajeros[0].name, pasajeros[0].lastName, pasajeros[0].flycode,
-					pasajeros[0].price, pasajeros[0].typePassenger);
+			switch (opcionMenu) {
+			case 1:
+				printf("\n***ALTAS***\n");
+				if ((findEmptySpace(pasajeros, LEN_PASAJEROS)) != -1) {
+					getValidWord(auxName,
+							"\n\nDATOS DEL PASAJERO:\nIngrese el nombre del pasajero: ",
+							"\nIngrese un nombre valido.", 15);
+					getValidWord(auxLastName,
+							"\nIngrese el apellido del pasajero: ",
+							"\nIngrese un apellido valido.", 15);
+					getValidFloat(&auxPrice, "\nIngrese el precio del pasaje: ",
+							"\nIngrese un precio valido", 999999);
+					utn_getNumero(&auxTypePassenger,
+							"\nIngrese el tipo de pasajero (1- ESTANDAR, "
+									"2- PREMIUM, 3- EJECUTIVO): ",
+							"\nIngrese un tipo valido.", 1, 3, 5);
 
-			break;
-		case 2:
-			printf("\nMENÚ DE MODIFICACIÓNES\n\n");
-			printf("Por favor, ingrese el ID del pasajero a modificar:\n");
-			//scanf
-			//funcion findByID
-			do {
-				fflush(stdin);
-				printf("\nOprima '1' para modificar el nombre del pasajero.\n"
-						"Oprima '2' para modificar el nombre del pasajero.\n"
-						"Oprima '3' para modificar el nombre del pasajero.\n"
-						"Oprima '4' para modificar el nombre del pasajero.\n"
-						"Oprima '5' para modificar el nombre del pasajero.\n\n"
-						"Oprima '0' volver al menú principal.\n");
-				scanf("%d", &opcionMenuModificar);
+					/*VALIDAR ESTO*/printf(
+							"\n\nDATOS DEL VUELO:\nIngrese el codigo de vuelo");
+					getString(auxFlycode, 10);
 
-				switch(opcionMenuModificar){
-				case 1:
-					printf("1");
+					auxId = calcularId();
+					addPassenger(pasajeros, LEN_PASAJEROS, auxId, auxName,
+							auxName, auxPrice, auxTypePassenger, auxFlycode);
+
+					addFlight(vuelos, auxFlycode, LEN_VUELOS);
+
+				} else {
+					printf(
+							"\n NO SE ENCONTRÓ ESPACIO LIBRE, NO SE AGREGÓ EL PASAJERO.");
+				}
+				break;
+
+			case 2:
+				//modificar
+				if (isThereAnyPassenger(pasajeros, LEN_PASAJEROS) == 0) {
+					do {
+						printf("\n***MODIFICAR***\n");
+						do {
+							utn_getNumero(&auxId,
+									"\nIngrese el ID del pasajero a modificar",
+									"\nIngrese una opcion valida.", 1000,
+									MAXIMO_IDS, 5);
+							for (int i = 0; i < LEN_PASAJEROS; i++) {
+
+								if (auxId == pasajeros[i].id) {
+									validacionSubMenu = 0;
+									indiceSubmenu = i;
+									break;
+								} else {
+									validacionSubMenu = 1;
+								}
+							}
+							if (validacionSubMenu == 1) {
+								printf("\nEL ID INGRESADO NO EXISTE");
+							}
+						} while (!(validacionSubMenu == 0));
+
+						utn_getNumero(&opcionSubMenu,
+								"\nQue dato desea modificar?\n \n1. Nombre. \n2. Apellido. \n3. Precio."
+										"\n4. Tipo de pasajero. \n5. Codigo de vuelo. \n0. EXIT.",
+								"\nIngrese una opcion valida.", 0, 6, 5);
+
+						switch (opcionSubMenu) {
+
+						case 1:
+							printf("caso 1"); //nombre
+							getValidWord(auxName, "\nIngrese el nuevo nombre: ",
+									"\nIngrese un nombre valido.", 15);
+							strcpy(pasajeros[indiceSubmenu].name, auxName);
+							break;
+						case 2:
+							printf("caso 2"); //apelido
+							getValidWord(auxLastName,
+									"\nIngrese el nuevo apellido: ",
+									"\nIngrese un apellido valido.", 15);
+							strcpy(pasajeros[indiceSubmenu].lastName,
+									auxLastName);
+							break;
+						case 3:
+							printf("caso 3"); //precio
+							getValidFloat(&auxPrice,
+									"\nIngrese el nuevo precio del pasaje: ",
+									"\nIngrese un precio valido", 999999);
+							pasajeros[indiceSubmenu].price = auxPrice;
+							break;
+						case 4:
+							printf("caso 4"); //tipo de pasajero
+							utn_getNumero(&auxTypePassenger,
+									"\nIngrese el nuevo tipo de pasajero: ",
+									"\nIngrese un tipo valido.", 1, 3, 5);
+							pasajeros[indiceSubmenu].typePassenger =
+									auxTypePassenger;
+							break;
+						case 5:
+							printf("caso 5"); //codigo de vuelo
+							/*VALIDAR ESTO*/
+							printf(
+									"\n\nDATOS DEL VUELO:\nIngrese nuevo codigo de vuelo");
+							getString(auxFlycode, 10);
+							strcpy(pasajeros[indiceSubmenu].flycode,
+									auxFlycode);
+							addFlight(vuelos, auxFlycode, LEN_VUELOS);
+							break;
+						case 0:
+							break;
+						}
+					} while ((opcionSubMenu != 0));
 					break;
-				case 2:
-					printf("2");
-					break;
-				case 3:
-					printf("3");
-					break;
-				case 4:
-					printf("4");
-					break;
-				case 5:
-					printf("5");
+				} else {
+					printf("\n¡NO HAY PASAJEROS INGRESADOS!");
 					break;
 				}
-				//Se ingresará el Número de Id, permitiendo modificar: o Nombre o Apellido
-				//o Precio o Tipo de pasajero o Código de vuelo
-			} while (opcionMenuModificar != 0);
+			case 3:
+				if (isThereAnyPassenger(pasajeros, LEN_PASAJEROS) == 0) {
+				printf("\n***BAJA***\n");
+				utn_getNumero(&auxId,
+						"\n Ingrese el ID del usuario a dar de baja: ",
+						"\nIngrese un dato valido.", 999, MAXIMO_IDS, 5);
+				removePassenger(pasajeros, LEN_PASAJEROS, auxId);
+				break;
+				} else{
+					printf("\n¡NO HAY PASAJEROS INGRESADOS!");
+										break;
+				}
+			case 4:
+				if (isThereAnyPassenger(pasajeros, LEN_PASAJEROS) == 0) {
+				do {
+					utn_getNumero(&opcionInformes,
+							"\n*INFORMAR*"
+									"\n1. Listado de los pasajeros ordenados alfabéticamente por Apellido y Tipo de pasajero."
+									"\n2. Total y promedio de los precios de los pasajes, y cuántos pasajeros superan el precio promedio."
+									"\n3. Listado de los pasajeros por Código de vuelo y estados de vuelos ‘ACTIVO’"
+									"\n0. EXIT", "Ingrese una opcion valida", 0,
+							3, 5);
 
-			break;
-		case 3:
-			printf("\nMENÚ DE BAJAS\n\n");
-			printf("Por favor, ingrese el ID del pasajero a dar de baja:\n");
-			printf("3");
-			break;
-		case 4:
-			printf("4");
-			break;
-		case 5:
-			printf("Salió del programa");
-			break;
-		}
-	} while (opcionMenuPrincipal != 5);
+					switch (opcionInformes) {
+					case 1:
+						//Listado de los pasajeros ordenados alfabéticamente por Apellido y Tipo de pasajero.
+						utn_getNumero(&opcionSubmenuUnoInformes,
+							"\n*INFORMAR*"
+							"\n1. Ingrese 1 para ordenar de forma ascendente, 0 de forma descendente.",
+							"Ingrese una opcion valida", 0, 1, 5);
+						sortPassengers(pasajeros, LEN_PASAJEROS, opcionSubmenuUnoInformes);
+						printPassenger(pasajeros, LEN_PASAJEROS);
+						break;
+					case 2:
+					//Total y promedio de los precios de los pasajes, y cuántos pasajeros superan el precio promedio.
+						break;
+					case 3:
+						break;
+					case 0:
+						break;
+					}
 
-	return EXIT_SUCCESS;
+				} while (opcionInformes != 0);
+				break;
+				} else{
+					printf("\n¡NO HAY PASAJEROS INGRESADOS!");
+										break;
+				}
 
-}
+			case 5:
+				for (int i = 0; i < 5; i++) {
+					printf("\nPASAJEROS:"
+							"\nid= %d"
+							"\nnombre: %s"
+							"\napellido: %s"
+							"\nprecio: %.2f"
+							"\ncodigo de vuelo: %s "
+							"\ntipo de pasajero: %d"
+							"\nestavacio: %d\n", pasajeros[i].id,
+							pasajeros[i].name, pasajeros[i].lastName,
+							pasajeros[i].price, pasajeros[i].flycode,
+							pasajeros[i].typePassenger, pasajeros[i].isEmpty);
 
-int tp_Dos_MenuPrincipal() {
-	int auxOpcionMenuPrincipal;
-	printf("\n1. ALTAS.");
-	printf("\n2. MODIFICAR.");
-	printf("\n3. BAJA");
-	printf("\n4. INFORMAR");
-	printf("\n5. EXIT");
-
-	scanf("%d", &auxOpcionMenuPrincipal);
-
-	return auxOpcionMenuPrincipal;
-}
-
-//struct arrays functions:
-
-//terminé la más basica ;w;
-int initPassengers(Passenger list[], int len) {
-	return -1;//error
-	if (list != NULL && len > 0) {
-		for (int i = 0; i < len; i++) {
-
-			list[i].isEmpty = 1;
-		}
+					printf("\nVUELOS:"
+							"\ncodigo de vuelo:%s"
+							"\nestado de vuelo: %d", vuelos[i].flycode,
+							vuelos[i].statusFlight);
+				}
+				break;
+			case 6:
+				printf("\nSalio");
+				break;
+			}
+		} while (opcionMenu != 6);
 	}
-	return 0;//success
+	return EXIT_SUCCESS;
 }
-
-
-
-
-
-
-
-
-
-
-
-
