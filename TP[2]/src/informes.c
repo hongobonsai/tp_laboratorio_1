@@ -74,8 +74,10 @@ int printPassengerByCode(Passenger *pasajeros, Flight *vuelos, int len) {
 	char estadoChar[9];
 	char auxFlycode[10];
 	int retorno = -1;
-	char tipoCharDos[15];
 	int auxIndiceEstado;
+
+
+
 	if (pasajeros != NULL && vuelos != NULL && len > 0) {
 
 	printf(
@@ -83,7 +85,7 @@ int printPassengerByCode(Passenger *pasajeros, Flight *vuelos, int len) {
 			"\n|ID             |FLYCODE        |ESTADO DE VUELO|APELLIDO       |NOMBRE         |PRECIO                 |TIPO           |"
 			"\n+---------------+---------------+---------------+---------------+---------------+-----------------------+---------------+");
 	for (int i = 0; i < len; i++) {
-		if ((pasajeros[i].isEmpty) == 0) {
+		if (pasajeros[i].isEmpty == 0) {
 
 			tipo = pasajeros[i].typePassenger;
 
@@ -91,41 +93,186 @@ int printPassengerByCode(Passenger *pasajeros, Flight *vuelos, int len) {
 
 			case 1:
 				strcpy(tipoChar, "ECONOMIC");
-				printf("entro a 1 economic %s", tipoChar);
 				break;
 			case 2:
 				strcpy(tipoChar, "BUSSINESS");
-				printf("entro a 2 buss %s", tipoChar);
 				break;
 			case 3:
 				strcpy(tipoChar, "FIRST CLASS");
 				break;
 			}
-			strcpy(tipoCharDos, tipoChar);
-
-			auxIndiceEstado = findFlightByCode(vuelos, 10, auxFlycode);
+			strncpy(auxFlycode, pasajeros[i].flycode, sizeof(pasajeros[i].flycode));
+			auxIndiceEstado = findFlightByCode(vuelos, len, auxFlycode);
 			estado = vuelos[auxIndiceEstado].statusFlight;
 
 			switch(estado){
-
 			case 1:
-				strcpy(estadoChar, "ACTIVO");
+				strncpy(estadoChar, "ACTIVO", sizeof(estadoChar));
 				break;
 			case 2:
-				strcpy(estadoChar, "DEMORADO");
+				strncpy(estadoChar, "DEMORADO", sizeof(estadoChar));
 				break;
 			case 3:
-				strcpy(estadoChar, "CANCELADO");
+				strncpy(estadoChar, "CANCELADO", sizeof(estadoChar));
 				break;
 			}
-			printf("\n|%-15d|%-15s|%-15s|%-15s|%-15s|%-23.2f|%-12s|"
+			printf("\n|%-15d|%-15s|%-15s|%-15s|%-15s|%-23.2f|%-12s   |"
 					"\n+--------------------------------------------"
 					"---------------------------------------------------------------------------+",
 					pasajeros[i].id, pasajeros[i].flycode, estadoChar, pasajeros[i].lastName, pasajeros[i].name,
-					pasajeros[i].price, tipoCharDos);
+					pasajeros[i].price, tipoChar);
 		}
 	}
 	return 0;
 	}
 	return retorno;
 }
+
+
+int hardCode(Passenger *pasajeros, Flight *vuelos){
+
+	pasajeros[0].isEmpty = 0;
+	vuelos[0].isEmpty = 0;
+	pasajeros[0].id = calcularId();
+	strcpy(pasajeros[0].name, "Jorge");
+	strcpy(pasajeros[0].lastName, "Perez");
+	pasajeros[0].price = 43234.66;
+	pasajeros[0].typePassenger = 1;
+
+	strcpy(pasajeros[0].flycode, "aaaa0000");
+	strcpy(vuelos[0].flycode, "aaaa0000");
+	vuelos[0].statusFlight = 1;
+
+	//
+
+	pasajeros[1].isEmpty = 0;
+	vuelos[1].isEmpty = 0;
+	pasajeros[1].id = calcularId();
+	strcpy(pasajeros[1].name, "Gandalf");
+	strcpy(pasajeros[1].lastName, "Vejete");
+	pasajeros[1].price = 123.123;
+	pasajeros[1].typePassenger = 3;
+
+	strcpy(pasajeros[1].flycode, "lord9999");
+	strcpy(vuelos[1].flycode, "lord9999");
+	vuelos[1].statusFlight = 1;
+
+	//
+
+	pasajeros[2].isEmpty = 0;
+	vuelos[2].isEmpty = 0;
+	pasajeros[2].id = calcularId();
+	strcpy(pasajeros[2].name, "Juana");
+	strcpy(pasajeros[2].lastName, "Dearco");
+	pasajeros[2].price = 1810.2505;
+	pasajeros[2].typePassenger = 1;
+
+	strcpy(pasajeros[2].flycode, "juan4202");
+	strcpy(vuelos[2].flycode, "juan4202");
+	vuelos[2].statusFlight = 3;
+
+	//
+
+	pasajeros[3].isEmpty = 0;
+	vuelos[3].isEmpty = 0;
+	pasajeros[3].id = calcularId();
+	strcpy(pasajeros[3].name, "Frodo");
+	strcpy(pasajeros[3].lastName, "Delanillo");
+	pasajeros[3].price = 5307.65;
+	pasajeros[3].typePassenger = 2;
+
+	strcpy(pasajeros[3].flycode, "aaaa0000");
+	strcpy(vuelos[3].flycode, "aaaa0000");
+	vuelos[3].statusFlight = 1;
+
+	//
+
+	pasajeros[4].isEmpty = 0;
+	vuelos[4].isEmpty = 0;
+	pasajeros[4].id = calcularId();
+	strcpy(pasajeros[4].name, "Pablito");
+	strcpy(pasajeros[4].lastName, "Lescano");
+	pasajeros[4].price = 777.77;
+	pasajeros[4].typePassenger = 2;
+
+	strcpy(pasajeros[4].flycode, "cumb1400");
+	strcpy(vuelos[4].flycode, "cumb1400");
+	vuelos[4].statusFlight = 2;
+
+	//
+
+	pasajeros[5].isEmpty = 0;
+	vuelos[5].isEmpty = 0;
+	pasajeros[5].id = calcularId();
+	strcpy(pasajeros[5].name, "Chuck");
+	strcpy(pasajeros[5].lastName, "Schuldiner");
+	pasajeros[5].price = 2001.2812;
+	pasajeros[5].typePassenger = 3;
+
+	strcpy(pasajeros[5].flycode, "ripp0000");
+	strcpy(vuelos[5].flycode, "ripp0000");
+	vuelos[5].statusFlight = 3;
+
+	//
+
+	pasajeros[6].isEmpty = 0;
+	vuelos[6].isEmpty = 0;
+	pasajeros[6].id = calcularId();
+	strcpy(pasajeros[6].name, "Jesucristo");
+	strcpy(pasajeros[6].lastName, "Salvador");
+	pasajeros[6].price = 234.22;
+	pasajeros[6].typePassenger = 2;
+
+	strcpy(pasajeros[6].flycode, "godd7777");
+	strcpy(vuelos[6].flycode, "godd7777");
+	vuelos[6].statusFlight = 1;
+
+	//
+
+	pasajeros[7].isEmpty = 0;
+	vuelos[7].isEmpty = 0;
+	pasajeros[7].id = calcularId();
+	strcpy(pasajeros[7].name, "Roberto");
+	strcpy(pasajeros[7].lastName, "Almafuerte");
+	pasajeros[7].price = 48881;
+	pasajeros[7].typePassenger = 3;
+
+	strcpy(pasajeros[7].flycode, "laHL020");
+	strcpy(vuelos[7].flycode, "laHL020");
+	vuelos[7].statusFlight = 2;
+
+	//
+
+	pasajeros[9].isEmpty = 0;
+	vuelos[9].isEmpty = 0;
+	pasajeros[9].id = calcularId();
+	strcpy(pasajeros[9].name, "Hijo");
+	strcpy(pasajeros[9].lastName, "Delgerente");
+	pasajeros[9].price = 9.99;
+	pasajeros[9].typePassenger = 3;
+
+	strcpy(pasajeros[9].flycode, "davi1400");
+	strcpy(vuelos[9].flycode, "davi1400");
+	vuelos[9].statusFlight = 1;
+
+		//
+
+	pasajeros[10].isEmpty = 0;
+	vuelos[10].isEmpty = 0;
+	pasajeros[10].id = calcularId();
+	strcpy(pasajeros[10].name, "Dieguito");
+	strcpy(pasajeros[10].lastName, "Maradona");
+	pasajeros[10].price = 1010.10;
+	pasajeros[10].typePassenger = 3;
+
+	strcpy(pasajeros[10].flycode, "lolo1010");
+	strcpy(vuelos[10].flycode, "lolo1010");
+	vuelos[10].statusFlight = 3;
+
+	//
+
+
+	return 0;
+}
+
+

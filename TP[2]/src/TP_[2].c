@@ -17,7 +17,7 @@
 #include "tp_2_library.h"
 #include "Informes.h"
 
-#define LEN_PASAJEROS 5
+#define LEN_PASAJEROS 15
 #define LEN_VUELOS LEN_PASAJEROS
 #define MAXIMO_IDS 5000
 
@@ -34,6 +34,7 @@ int main(void) {
 	char auxFlycode[10]; //COMPARTIDA
 
 	int opcionSubmenuUnoInformes;
+	int opcionSubmenuTresInformes;
 
 	int auxId; //passengers
 	int auxTypePassenger;
@@ -223,6 +224,10 @@ int main(void) {
 					//Total y promedio de los precios de los pasajes, y cuántos pasajeros superan el precio promedio.
 						break;
 					case 3:
+						utn_getNumero(&opcionSubmenuTresInformes,
+							"\n*INFORMAR*"
+							"\n1. Ingrese 1 para ordenar de forma ascendente, 0 de forma descendente.",
+							"Ingrese una opcion valida", 0, 1, 5);
 						sortPassengersByCode(pasajeros, vuelos, LEN_PASAJEROS, 1);
 						printPassengerByCode(pasajeros, vuelos, LEN_PASAJEROS);
 						break;
@@ -238,24 +243,7 @@ int main(void) {
 				}
 
 			case 5:
-				for (int i = 0; i < 5; i++) {
-					printf("\nPASAJEROS:"
-							"\nid= %d"
-							"\nnombre: %s"
-							"\napellido: %s"
-							"\nprecio: %.2f"
-							"\ncodigo de vuelo: %s "
-							"\ntipo de pasajero: %d"
-							"\nestavacio: %d\n", pasajeros[i].id,
-							pasajeros[i].name, pasajeros[i].lastName,
-							pasajeros[i].price, pasajeros[i].flycode,
-							pasajeros[i].typePassenger, pasajeros[i].isEmpty);
-
-					printf("\nVUELOS:"
-							"\ncodigo de vuelo:%s"
-							"\nestado de vuelo: %d", vuelos[i].flycode,
-							vuelos[i].statusFlight);
-				}
+				hardCode(pasajeros, vuelos);
 				break;
 			case 6:
 				printf("\nSalio");

@@ -20,5 +20,6 @@
 
 int sortPassengersByCode(Passenger *pasajeros, Flight *vuelos, int len, int order);
 int printPassengerByCode(Passenger *pasajeros, Flight *vuelos, int len);
+int hardCode(Passenger *pasajeros, Flight *vuelos);
 
 #endif /* INFORMES_H_ */
