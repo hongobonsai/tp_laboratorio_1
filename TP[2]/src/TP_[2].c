@@ -54,16 +54,9 @@ int main(void) {
 	if ((initPassengers(pasajeros, LEN_PASAJEROS) == 0)
 			&& (initFlights(vuelos, LEN_VUELOS)) == 0) {
 		do {
-			printf("\n*MENU*");
-			printf("\n1. ALTAS.");
-			printf("\n2. MODIFICAR.");
-			printf("\n3. BAJA");
-			printf("\n4. INFORMAR");
-			printf("\n5. CARGA FORZADA");
-			printf("\n6. EXIT\n");
 
-			utn_getNumero(&opcionMenu, "", "\nIngrese una opcion valida.", 1, 6,
-					5);
+
+			opcionMenu = menuPrincipal();
 
 			switch (opcionMenu) {
 			case 1:
@@ -134,15 +127,15 @@ int main(void) {
 							printf("caso 1"); //nombre
 							getValidWord(auxName, "\nIngrese el nuevo nombre: ",
 									"\nIngrese un nombre valido.", 51);
-							strcpy(pasajeros[indiceSubmenu].name, auxName);
+							strncpy(pasajeros[indiceSubmenu].name, auxName, sizeof(pasajeros[indiceSubmenu].name));
 							break;
 						case 2:
 							printf("caso 2"); //apelido
 							getValidWord(auxLastName,
 									"\nIngrese el nuevo apellido: ",
 									"\nIngrese un apellido valido.", 51);
-							strcpy(pasajeros[indiceSubmenu].lastName,
-									auxLastName);
+							strncpy(pasajeros[indiceSubmenu].lastName,
+									auxLastName, sizeof(pasajeros[indiceSubmenu].lastName));
 							break;
 						case 3:
 							printf("caso 3"); //precio
@@ -166,8 +159,8 @@ int main(void) {
 							printf(
 									"\n\nDATOS DEL VUELO:\nIngrese nuevo codigo de vuelo");
 							getString(auxFlycode, 10);
-							strcpy(pasajeros[indiceSubmenu].flycode,
-									auxFlycode);
+							strncpy(pasajeros[indiceSubmenu].flycode,
+									auxFlycode, sizeof(pasajeros[indiceSubmenu].flycode));
 							addFlight(vuelos, auxFlycode, LEN_VUELOS);
 							break;
 						case 0:

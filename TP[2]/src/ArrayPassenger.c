@@ -6,6 +6,14 @@
  */
 
 #include "ArrayPassenger.h"
+
+/** \brief Para indicar que todas las posiciones en la matriz están vacías,
+* esta función pone la bandera (isEmpty) en VERDADERO en todas las posiciones de la estructura
+*
+* \param list Passenger* Puntero a la estructura
+* \param len Largo del array
+* \return int Devuelve (-1) si hay error [longitud no válida o puntero NULL] - (0) si está bien
+*/
 int initPassengers(Passenger list[], int len) {
 	int retorno = -1;
 	if (list != NULL && len > 0) {
@@ -16,7 +24,20 @@ int initPassengers(Passenger list[], int len) {
 	}
 	return retorno;
 }
-
+/** \brief agrega en una lista existente de pasajeros los valores recibidos como parámetros
+* en la primera posición vacía
+*
+* \param list passenger*
+* \param len int
+* \param id int
+* \param name[] char
+* \param lastName[] char
+* \param price float
+* \param typePassenger int
+* \param flycode[] char
+* \return int Retorna (-1) si hay algun Error [Longitud inválida, puntero NULL o sin
+espacio libre] - (0) si está bien.
+*/
 int addPassenger(Passenger list[], int len, int id, char name[],
 		char lastName[], float price, int typePassenger, char flycode[]) {
 	int retorno = -1;
@@ -25,11 +46,11 @@ int addPassenger(Passenger list[], int len, int id, char name[],
 		indiceVacio = findEmptySpace(list, len);
 		if (indiceVacio != -1) {
 			list[indiceVacio].id = id;
-			strcpy(list[indiceVacio].name, name);
-			strcpy(list[indiceVacio].lastName, lastName);
+			strncpy(list[indiceVacio].name, name, sizeof(list[indiceVacio].name));
+			strncpy(list[indiceVacio].lastName, lastName, sizeof(list[indiceVacio].name));
 			list[indiceVacio].price = price;
 			list[indiceVacio].typePassenger = typePassenger;
-			strcpy(list[indiceVacio].flycode, flycode);
+			strncpy(list[indiceVacio].flycode, flycode, sizeof(list[indiceVacio].name));
 			list[indiceVacio].isEmpty = 0; //Escribe el empty
 			retorno = 0;
 		} else {
@@ -41,7 +62,12 @@ int addPassenger(Passenger list[], int len, int id, char name[],
 
 	return retorno;
 }
-
+/** \brief Encuentra un espacio vacio en la estructura pasajeros (espacio vacio = IsEmpty 1).
+*
+* \param list passenger*
+* \param len int
+* \return Retorna el lugar disponible (indice)
+*/
 int findEmptySpace(Passenger list[], int len) {
 	int retorno = -1;
 	if (list != NULL && len > 0) {
@@ -55,7 +81,12 @@ int findEmptySpace(Passenger list[], int len) {
 	}
 	return retorno;
 }
-
+/** \brief Busca si hay algo cargado en nuestra estructura de pasajeros.
+*
+* \param list passenger*
+* \param len int
+* \return Retorna 0 si encuentra algun lugar disponible.
+*/
 int isThereAnyPassenger(Passenger *list, int len) {
 	int retorno = -1;
 	for (int i = 0; i < len; i++) {
@@ -66,7 +97,15 @@ int isThereAnyPassenger(Passenger *list, int len) {
 	}
 	return retorno;
 }
-
+/** \brief encuentra un pasajero en la estructura recibiendo su ID
+* devuelve la posición del índice en la matriz.
+*
+* \param list Passenger*
+* \param len int
+* \param id int
+* \return Retorna la posición del índice de pasajeros o (-1) si [Longitud o
+Puntero NULL recibido o pasajero no encontrado]
+*/
 int findPassengerById(Passenger *list, int len, int id) {
 	int retorno = -1;
 	if (list != NULL && len > 0 && id > 0) {
@@ -79,7 +118,15 @@ int findPassengerById(Passenger *list, int len, int id) {
 	}
 	return retorno;
 }
-
+/** \brief Elimina a un pasajero por ID (pone la flag IsEmpty en 1)
+*
+* \param list Passenger*
+* \param len int
+* \param id int
+* \return Devuelve (-1) si hay un error [Longitud no válida, puntero NULL o si no se puede
+encontrar un pasajero] - (0) si está bien
+*
+*/
 int removePassenger(Passenger *list, int len, int id) {
 	int retorno = -1;
 	for (int i = 0; i < len; i++) {
@@ -90,7 +137,14 @@ int removePassenger(Passenger *list, int len, int id) {
 	}
 	return retorno;
 }
-
+/** \brief Ordenar los elementos en la matriz de pasajeros, el orden de los argumentos
+indicar orden ARRIBA o ABAJO
+*
+* \param list Passenger*
+* \param len int
+* \param order int [1] Indica ascendente - [0] Indica descendente
+* \return Devuelve (-1) si hay error [longitud no válida o puntero NULL] - (0) si está bien
+*/
 int sortPassengers(Passenger *list, int len, int order) {
 
 	int i;
@@ -155,7 +209,12 @@ int sortPassengers(Passenger *list, int len, int order) {
 	}
 	return retorno;
 }
-
+/** \brief Imprime el contenido de la estructura de pasajeros
+ *
+* \param list Passenger*
+* \param length int
+* \return int
+*/
 int printPassenger(Passenger *list, int len) {
 
 	char tipoChar[12];
@@ -174,13 +233,13 @@ int printPassenger(Passenger *list, int len) {
 			switch(tipo){
 
 			case 1:
-				strcpy(tipoChar, "ECONOMIC");
+				strncpy(tipoChar, "ECONOMIC", sizeof(tipoChar));
 				break;
 			case 2:
-				strcpy(tipoChar, "BUSSINESS");
+				strncpy(tipoChar, "BUSSINESS", sizeof(tipoChar));
 				break;
 			case 3:
-				strcpy(tipoChar, "FIRST CLASS");
+				strncpy(tipoChar, "FIRST CLASS", sizeof(tipoChar));
 				break;
 			}
 
@@ -195,7 +254,15 @@ int printPassenger(Passenger *list, int len) {
 	}
 	return retorno;
 }
-
+/** \brief Imprime el contenido de la estructura de pasajeros
+ *
+* \param list Passenger*
+* \param len
+* \param *precioTotal Calcula el precio total de los pasajeros ingresados
+* \param *promedio Calcula el promedio de precio de los pasajeros ingresados
+* \param *superanPromedio Calcula la cantidad de pasajeros cuyo precio sea mayor que el promedio
+* \return int
+*/
 int averageAndTotalPricePassenger(Passenger *list, int len, float *precioTotal, float * promedio, int *superanPromedio){
 	int retorno = -1;
 	int contadorPrecios = 0;

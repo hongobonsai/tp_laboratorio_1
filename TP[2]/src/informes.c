@@ -3,7 +3,13 @@
 
 
 
-
+/** \brief Ordena los elementos en la matriz de pasajeros por código de vuelo
+*  y estado de vuelo de manera ascendente o descendente.
+*
+* \param list Passenger*
+* \param len int
+* \param order [1] Indica ascendente - [0] Indica descendente
+*/
 int sortPassengersByCode(Passenger *pasajeros, Flight *vuelos, int len, int order) {
 
 	int i;
@@ -65,13 +71,19 @@ int sortPassengersByCode(Passenger *pasajeros, Flight *vuelos, int len, int orde
 	}
 	return retorno;
 }
-
+/** \brief Imprime el contenido de la estructura de pasajeros con codigo de vuelo incluido.
+ *
+* \param list Passenger*
+* \param list Flight*
+* \param len int
+* \return int
+*/
 int printPassengerByCode(Passenger *pasajeros, Flight *vuelos, int len) {
 
 	char tipoChar[15];
 	int tipo;
 	int estado;
-	char estadoChar[9];
+	char estadoChar[15];
 	char auxFlycode[10];
 	int retorno = -1;
 	int auxIndiceEstado;
@@ -88,32 +100,32 @@ int printPassengerByCode(Passenger *pasajeros, Flight *vuelos, int len) {
 		if (pasajeros[i].isEmpty == 0) {
 
 			tipo = pasajeros[i].typePassenger;
+			strncpy(auxFlycode, pasajeros[i].flycode, sizeof(auxFlycode));
 
 			switch(tipo){
 
 			case 1:
-				strcpy(tipoChar, "ECONOMIC");
+				strncpy(tipoChar, "ECONOMIC\0", sizeof(tipoChar));
 				break;
 			case 2:
-				strcpy(tipoChar, "BUSSINESS");
+				strncpy(tipoChar, "BUSSINESS\0", sizeof(tipoChar));
 				break;
 			case 3:
-				strcpy(tipoChar, "FIRST CLASS");
+				strncpy(tipoChar, "FIRST CLASS\0", sizeof(tipoChar));
 				break;
 			}
-			strncpy(auxFlycode, pasajeros[i].flycode, sizeof(pasajeros[i].flycode));
 			auxIndiceEstado = findFlightByCode(vuelos, len, auxFlycode);
 			estado = vuelos[auxIndiceEstado].statusFlight;
 
 			switch(estado){
 			case 1:
-				strncpy(estadoChar, "ACTIVO", sizeof(estadoChar));
+				strncpy(estadoChar, "ACTIVO\0", sizeof(estadoChar));
 				break;
 			case 2:
-				strncpy(estadoChar, "DEMORADO", sizeof(estadoChar));
+				strncpy(estadoChar, "DEMORADO\0", sizeof(estadoChar));
 				break;
 			case 3:
-				strncpy(estadoChar, "CANCELADO", sizeof(estadoChar));
+				strncpy(estadoChar, "CANCELADO\0", sizeof(estadoChar));
 				break;
 			}
 			printf("\n|%-15d|%-15s|%-15s|%-15s|%-15s|%-23.2f|%-12s   |"
@@ -128,9 +140,16 @@ int printPassengerByCode(Passenger *pasajeros, Flight *vuelos, int len) {
 	return retorno;
 }
 
-
+/** \brief HARDCODEA valores de usuario a las dos estructuras (VUELOS Y PASAJEROS)
+* Los carga siempre en los indices del 0 al 9, sin importar si tienen contenido o no.
+*
+* \param list Passenger*
+* \param list Flight*
+* \return int
+*/
 int hardCode(Passenger *pasajeros, Flight *vuelos){
 
+	printf("SE PISARAN LOS DATOS INGRESADOS");
 	pasajeros[0].isEmpty = 0;
 	vuelos[0].isEmpty = 0;
 	pasajeros[0].id = calcularId();
@@ -255,7 +274,7 @@ int hardCode(Passenger *pasajeros, Flight *vuelos){
 	strcpy(vuelos[9].flycode, "davi1400");
 	vuelos[9].statusFlight = 1;
 
-		//
+	//
 
 	pasajeros[10].isEmpty = 0;
 	vuelos[10].isEmpty = 0;

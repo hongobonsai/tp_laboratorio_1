@@ -11,6 +11,126 @@ int esNumerica(char* cadena, int limite);
 int getInt(int* pResultado);
 int getString(char* cadena, int longitud);
 
+/** \brief Valida si el string recibido es una palabra A-Z, a-z
+*
+* \param string
+* \return Devuelve 0 si es una palabra, 1 Si no lo es.
+*/
+int validateWordChar(char string[]) {
+	int retorno = -1;
+	int i = 0;
+	if (string != NULL) {
+		if (string[strnlen(string, 50) - 1] == '\n') {
+			string[strnlen(string, 50) - 1] = '\0';
+		}
+		while (string[i] != '\0') {
+			if (!(isalpha(string[i]))) {
+				retorno = -1;
+				break;
+			} else {
+				retorno = 0;
+			}
+			i++;
+		}
+	}
+	return retorno;
+}
+/** \brief Obtiene un string, y valida si el string recibido es una palabra A-Z, a-z
+*
+* \param *cadena puntero a string
+* * \param *mensaje Recibe el mensaje a mostrar cuando se obtiene el dato
+* * \param *mensajeError Recibe el mensaje de error para cuando no es un dato valido
+* * \param len
+* \return Devuelve 0 si esta ok, -1 Si no pudo obtener el string
+*/
+int getValidWord(char *cadena, char *mensaje, char *mensajeError, int len) {
+	char auxCadena[len];
+	int validacion;
+	if (mensaje != NULL && mensajeError != NULL && len > 0) {
+		do {
+			printf("%s", mensaje);
+			fgets(auxCadena, len, stdin);
+			if (auxCadena[strnlen(auxCadena, len) - 1] == '\n') {
+				auxCadena[strnlen(auxCadena, len) - 1] = '\0';
+			}
+			if (validateWordChar(auxCadena) == -1) {
+				printf("%s", mensajeError);
+				fflush(stdin);
+				validacion = -1;
+			} else {
+				validacion = 0;
+			}
+		} while (validacion == -1);
+	}
+	strncpy(cadena, auxCadena, len);
+	return 0;
+}
+/** \brief Obtiene un string, y valida si el string recibido contiene solo caracteres numericos
+* y un ".", luego lo transforma en un flotante .float
+*
+* \param *numero puntero a float
+* * \param *mensaje Recibe el mensaje a mostrar cuando se obtiene el dato
+* * \param *mensajeError Recibe el mensaje de error para cuando no es un dato valido
+* * \param len
+* \return Devuelve 0 si esta ok, -1 Si fallo
+*/
+int getValidFloat(float *numero, char *mensaje, char *mensajeError, int len) {
+	char charNumero[len];
+	float numeroFinal;
+	int validacion;
+	if (mensaje != NULL && mensajeError != NULL && len > 0) {
+			do {
+				printf("%s", mensaje);
+				fgets(charNumero, len, stdin);
+				if(charNumero[strnlen(charNumero, 50)-1] == '\n'){
+					charNumero[strnlen(charNumero, 50)-1] = '\0';
+				}
+				if (validateFloatChar(charNumero) == -1) {
+					printf("%s", mensajeError);
+					fflush(stdin);
+					validacion = -1;
+				} else {
+					validacion = 0;
+				}
+			} while (validacion == -1);
+			numeroFinal = atof(charNumero);
+		}
+		*numero = numeroFinal;
+		return 0;
+	}
+/** \brief Valida si el string recibido contiene solo numeros y hasta un "." que
+ * divida en dos mitades (formato tipo flotante)
+*
+* \param string
+* \return Devuelve 0 si respeta el formato, -1 si no lo es
+*/
+int validateFloatChar(char string[]) {
+	int retorno = -1;
+	int i = 0;
+	int contadorPuntos = 0;
+	if (string != NULL) {
+		if(string[strnlen(string, 50)-1] == '\n'){
+			string[strnlen(string, 50)-1] = '\0';
+					}
+		while (string[i] != '\0') {
+			if (string[i] == '.') {
+				contadorPuntos++;
+				if (contadorPuntos > 1) {
+					retorno = -1;
+					break;
+				}
+			}
+			if (!(string[i] >= 48 && string[i] <= 57) && (string[i] != '.')) {
+				retorno = -1;
+				break;
+			} else {
+				retorno = 0;
+			}
+			i++;
+		}
+	}
+	return retorno;
+}
 
 /**
  * \brief Solicita un numero al usuario, leuego de verificarlo devuelve el resultado
@@ -43,7 +163,15 @@ int utn_getNumero(int* pResultado, char* mensaje, char* mensajeError, int minimo
 
 	return retorno;
 }
-
+/**
+ *brief Utiliza las funciones getString y esNumerica, para obtener y validar
+ *brief una cadena como numero respectivamente, si salio ok,
+ *brief transforma la cadena en un entero.
+*
+* * \param *cadena
+* * \param *limite
+* \return Devuelve 0 si esta ok, -1 Si fallo
+*/
 int getInt(int* pResultado)
 {
     int retorno=-1;
@@ -59,6 +187,14 @@ int getInt(int* pResultado)
     return retorno;
 }
 
+/**
+*brief Verifica si la cadena recibida es numerica, si contiene solo
+*brief los caracteres "1 al 9", "+" y "-"
+*
+* * \param *cadena
+* * \param *limite
+* \return Devuelve 0 si esta ok, -1 Si fallo
+*/
 int esNumerica(char* cadena, int limite)
 {
 	int retorno = -1; // ERROR
@@ -83,16 +219,23 @@ int esNumerica(char* cadena, int limite)
 	}
 	return retorno;
 }
-
+/**
+ *brief Obtiene un string, reemplaza los caracteres correspondientes
+ *brief al enter si los encuentra, y los reemplaza con el caracter terminante
+ *brief de la cadena
+*
+* * \param *cadena
+* * \param *longitud
+* \return Devuelve 0 si esta ok, -1 Si fallo
+*/
 int getString(char* cadena, int longitud)
 {
 	int retorno=-1;
-	char bufferString[4096]; // *****************************
+	char bufferString[4096];
 
 	if(cadena != NULL && longitud > 0)
 	{
 		fflush(stdin);
-		//__fpurge(stdin); // Linux
 		if(fgets(bufferString,sizeof(bufferString),stdin) != NULL)
 		{
 			if(bufferString[strnlen(bufferString,sizeof(bufferString))-1] == '\n')
@@ -108,142 +251,3 @@ int getString(char* cadena, int longitud)
 	}
 	return retorno;
 }
-
-//VALIDA SI SOLO SE INGRESARON DE LA "A" A LA "Z"
-int validateWordChar(char string[]) {
-	int retorno = -1;
-	int i = 0;
-	if (string != NULL) {
-		if (string[strnlen(string, 50) - 1] == '\n') {
-			string[strnlen(string, 50) - 1] = '\0';
-		}
-		while (string[i] != '\0') {
-			if (!(isalpha(string[i]))) {
-				retorno = -1;
-				break;
-			} else {
-				retorno = 0;
-			}
-			i++;
-		}
-	}
-	return retorno;
-}
-//OBTIENE UNA PALABRA A/Z VALIDA.
-int getValidWord(char *cadena, char *mensaje, char *mensajeError, int len) {
-	char auxCadena[len];
-	int validacion;
-	if (mensaje != NULL && mensajeError != NULL && len > 0) {
-		do {
-			printf("%s", mensaje);
-			fgets(auxCadena, len, stdin);
-			if (auxCadena[strnlen(auxCadena, len) - 1] == '\n') {
-				auxCadena[strnlen(auxCadena, len) - 1] = '\0';
-			}
-			if (validateWordChar(auxCadena) == -1) {
-				printf("%s", mensajeError);
-				fflush(stdin);
-				validacion = -1;
-			} else {
-				validacion = 0;
-			}
-		} while (validacion == -1);
-	}
-	strncpy(cadena, auxCadena, len);
-	return 0;
-}
-
-int getValidFloat(float *numero, char *mensaje, char *mensajeError, int len) {
-	char charNumero[len];
-	float numeroFinal;
-	int validacion;
-	if (mensaje != NULL && mensajeError != NULL && len > 0) {
-			do {
-				printf("%s", mensaje);
-				fgets(charNumero, len, stdin);
-				if(charNumero[strnlen(charNumero, 50)-1] == '\n'){
-					charNumero[strnlen(charNumero, 50)-1] = '\0';
-				}
-				if (validateFloatChar(charNumero) == -1) {
-					printf("%s", mensajeError);
-					fflush(stdin);
-					validacion = -1;
-				} else {
-					validacion = 0;
-				}
-			} while (validacion == -1);
-			numeroFinal = atof(charNumero);
-		}
-		*numero = numeroFinal;
-		return 0;
-	}
-
-int validateFloatChar(char string[]) {
-	int retorno = -1;
-	int i = 0;
-	int contadorPuntos = 0;
-	if (string != NULL) {
-		if(string[strnlen(string, 50)-1] == '\n'){
-			string[strnlen(string, 50)-1] = '\0';
-					}
-		while (string[i] != '\0') {
-			if (string[i] == '.') {
-				contadorPuntos++;
-				if (contadorPuntos > 1) {
-					retorno = -1;
-					break;
-				}
-			}
-			if (!(string[i] >= 48 && string[i] <= 57) && (string[i] != '.')) {
-				retorno = -1;
-				break;
-			} else {
-				retorno = 0;
-			}
-			i++;
-		}
-	}
-	return retorno;
-}
-
-//int validateNumberChar(char string[]) {
-//	int retorno = -1;
-//	if (string != NULL) {
-//		if (string[strnlen(string, 50) - 1] == '\n') {
-//					string[strnlen(string, 50) - 1] = '\0';
-//				}
-//		for (int i = 0; i < strlen(string); i++) {
-//			if (!(string[i] >= 48 && string[i] <= 57)
-//					|| !(isdigit(string[i]))) {
-//				retorno = -1;
-//				break;
-//			} else {
-//				retorno = 0;
-//			}
-//		}
-//	}
-//	return retorno;
-//
-//}
-//OBTIENE UN NUMERO ENTERO VALIDO.
-//int getValidInt(int *numero, char *mensaje, char *mensajeError, int len) {
-//	char charNumero[len];
-//	int numeroFinal;
-//	int validacion;
-//	if (mensaje != NULL && mensajeError != NULL && len > 0) {
-//		do {
-//			printf("%s", mensaje);
-//			fgets(charNumero, len, stdin);
-//			if (validateNumberChar(charNumero) == -1) {
-//				printf("%s", mensajeError);
-//				fflush(stdin);
-//				validacion = -1;
-//			} else {
-//				validacion = 0;
-//			}
-//		} while (validacion == -1);
-//		numeroFinal = atoi(charNumero);
-//	}
-//	*numero = numeroFinal;
-//	return 0;
-//}

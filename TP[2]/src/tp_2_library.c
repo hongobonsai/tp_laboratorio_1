@@ -4,26 +4,30 @@
  *  Created on: 12 may. 2022
  *      Author: Hongo
  */
+#include "Utn.h"
 
-#include "tp_2_library.h"
-
-//MENU
+/** \brief Imprime el menu principal del programa
+*
+*/
 int menuPrincipal() {
 	int auxOpcionMenuPrincipal;
-	printf("\n1. ALTA DEL ASOCIADO.");
-	printf("\n2. MODIFICAR DATOS DEL ASOCIADO.");
-	printf("\n3. BAJA DEL ASOCIADO.");
-	printf("\n4. NUEVA LLAMADA.");
-	printf("\n5. ASIGNAR AMBULANCIA.");
-	printf("\n6. INFORMAR.");
-	printf("\n7. EXIT.");
+	printf("\n*MENU*");
+	printf("\n1. ALTAS.");
+	printf("\n2. MODIFICAR.");
+	printf("\n3. BAJA");
+	printf("\n4. INFORMAR");
+	printf("\n5. CARGA FORZADA");
+	printf("\n6. EXIT\n");
 
-	scanf("%d", &auxOpcionMenuPrincipal);
+	utn_getNumero(&auxOpcionMenuPrincipal, "", "\nIngrese una opcion valida.", 1, 6, 5);
 
 	return auxOpcionMenuPrincipal;
 }
 
-//Calcula ID
+/** \brief Generador de ID autoincremental. Utiliza un valor static. Comienza en 1000
+*
+* \return Retorna el valor del ID,
+*/
 int calcularId() {
 
 	static int id = 999;
