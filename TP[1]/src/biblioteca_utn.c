@@ -7,6 +7,7 @@
 
 #include "biblioteca_utn.h"
 
+
 /// @brief Realiza un descuento a un flotante, y devuelve el resultado por puntero.
 /// @param numero: Trae el flotante a realizar el descuento.
 /// @param porcentajeDescuento: Trae el porcentaje (1 = 100%, 0.5 = 50%, 0.0 = 5%, etc)

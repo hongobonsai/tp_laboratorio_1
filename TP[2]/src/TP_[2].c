@@ -204,7 +204,8 @@ int main(void) {
 								"\n|TOTAL          |PROMEDIO       |MAYORES QUE EL PROMEDIO|"
 								"\n+---------------+---------------+-----------------------+");
 						printf("\n|%-15.2f|%-15.2f|%-23d|"
-								"\n+---------------+---------------+-----------------------+", precioTotal, promedioPrecios, cantidadSuperanPromedio);
+								"\n+---------------+---------------+-----------------------+", precioTotal,
+								promedioPrecios, cantidadSuperanPromedio);
 					//Total y promedio de los precios de los pasajes, y cuántos pasajeros superan el precio promedio.
 						break;
 					case 3:
