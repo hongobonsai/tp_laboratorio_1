@@ -6,6 +6,7 @@
  */
 
 #include "Utn.h"
+#include "Passenger.h"
 
 int esNumerica(char *cadena, int limite);
 int getInt(int *pResultado);
@@ -74,30 +75,92 @@ int getValidWord(char *cadena, char *mensaje, char *mensajeError, int len) {
  * * \param len
  * \return Devuelve 0 si esta ok, -1 Si fallo
  */
+
+
+//int getValidFloat(float *numero, char *mensaje, char *mensajeError, int len, int reintentos) {
+//	char charNumero[len];
+//	float numeroFinal;
+//	int retorno;
+//	if (mensaje != NULL && mensajeError != NULL && len > 0) {
+//		do {
+//			printf("%s", mensaje);
+//			fgets(charNumero, len, stdin);
+//			if (charNumero[strnlen(charNumero, 50) - 1] == '\n') {
+//				charNumero[strnlen(charNumero, 50) - 1] = '\0';
+//			}
+//			if (validateFloatChar(charNumero) == -1) {
+//				printf("%s", mensajeError);
+//				fflush(stdin);
+//				retorno = -1;
+//				reintentos--;
+//			} else {
+//				retorno = 0;
+//			}
+//		} while (retorno == -1 && reintentos > 0);
+//		numeroFinal = atof(charNumero);
+//	}
+//	*numero = numeroFinal;
+//	return retorno;
+//}
+/**
+ * \brief Solicita un numero al usuario, leuego de verificarlo devuelve el resultado
+ * \param pResultado Puntero al espacio de memoria donde se dejara el resultado de la funcion
+ * \param mensaje Es el mensaje a ser mostrado
+ * \param mensajeError Es el mensaje de Error a ser mostrado
+ * \param minimo Es el numero maximo a ser aceptado
+ * \param maximo Es el minimo minimo a ser aceptado
+ * \return Retorna 0 si se obtuvo el numero y -1 si no
+ *
+ */
+
+int getValidFloatChar(char *numeroChar, char *mensaje, char *mensajeError, int len) {
+	char charNumero[len];
+	int validacion;
+	if (mensaje != NULL && mensajeError != NULL && len > 0) {
+			do {
+				printf("%s", mensaje);
+				fgets(charNumero, len, stdin);
+				if(charNumero[strnlen(charNumero, 50)-1] == '\n'){
+					charNumero[strnlen(charNumero, 50)-1] = '\0';
+				}
+				if (validateFloatChar(charNumero) == -1) {
+					printf("%s", mensajeError);
+					fflush(stdin);
+					validacion = -1;
+				} else {
+					validacion = 0;
+				}
+			} while (validacion == -1);
+		}
+		strcpy(numeroChar, charNumero);
+		return validacion;
+	}
+
 int getValidFloat(float *numero, char *mensaje, char *mensajeError, int len) {
 	char charNumero[len];
 	float numeroFinal;
 	int validacion;
 	if (mensaje != NULL && mensajeError != NULL && len > 0) {
-		do {
-			printf("%s", mensaje);
-			fgets(charNumero, len, stdin);
-			if (charNumero[strnlen(charNumero, 50) - 1] == '\n') {
-				charNumero[strnlen(charNumero, 50) - 1] = '\0';
-			}
-			if (validateFloatChar(charNumero) == -1) {
-				printf("%s", mensajeError);
-				fflush(stdin);
-				validacion = -1;
-			} else {
-				validacion = 0;
-			}
-		} while (validacion == -1);
-		numeroFinal = atof(charNumero);
+			do {
+				printf("%s", mensaje);
+				fgets(charNumero, len, stdin);
+				if(charNumero[strnlen(charNumero, 50)-1] == '\n'){
+					charNumero[strnlen(charNumero, 50)-1] = '\0';
+				}
+				if (validateFloatChar(charNumero) == -1) {
+					printf("%s", mensajeError);
+					fflush(stdin);
+					validacion = -1;
+				} else {
+					validacion = 0;
+				}
+			} while (validacion == -1);
+			numeroFinal = atof(charNumero);
+		}
+		*numero = numeroFinal;
+		return 0;
 	}
-	*numero = numeroFinal;
-	return 0;
-}
+
 /** \brief Valida si el string recibido contiene solo numeros y hasta un "." que
  * divida en dos mitades (formato tipo flotante)
  *
@@ -105,6 +168,7 @@ int getValidFloat(float *numero, char *mensaje, char *mensajeError, int len) {
  * \return Devuelve 0 si respeta el formato, -1 si no lo es
  */
 int validateFloatChar(char string[]) {
+	fflush(stdin);
 	int retorno = -1;
 	int i = 0;
 	int contadorPuntos = 0;
@@ -131,17 +195,6 @@ int validateFloatChar(char string[]) {
 	}
 	return retorno;
 }
-
-/**
- * \brief Solicita un numero al usuario, leuego de verificarlo devuelve el resultado
- * \param pResultado Puntero al espacio de memoria donde se dejara el resultado de la funcion
- * \param mensaje Es el mensaje a ser mostrado
- * \param mensajeError Es el mensaje de Error a ser mostrado
- * \param minimo Es el numero maximo a ser aceptado
- * \param maximo Es el minimo minimo a ser aceptado
- * \return Retorna 0 si se obtuvo el numero y -1 si no
- *
- */
 int utn_getNumero(int *pResultado, char *mensaje, char *mensajeError,
 		int minimo, int maximo, int reintentos) {
 	int retorno = -1;
@@ -208,6 +261,31 @@ int esNumerica(char *cadena, int limite) {
 	}
 	return retorno;
 }
+int getValidPositiveInt(int *numero, char *mensaje, char *mensajeError, int len, int reintentos) {
+	char charNumero[len];
+	int numeroFinal;
+	int retorno;
+	if (mensaje != NULL && mensajeError != NULL && len > 0) {
+		do {
+			printf("%s", mensaje);
+			fgets(charNumero, len, stdin);
+			if (charNumero[strnlen(charNumero, 50) - 1] == '\n') {
+				charNumero[strnlen(charNumero, 50) - 1] = '\0';
+			}
+			if (esNumericaPositiva(charNumero) == -1) {
+				printf("%s", mensajeError);
+				fflush(stdin);
+				retorno = -1;
+				reintentos--;
+			} else {
+				retorno = 0;
+			}
+		} while (retorno == -1 && reintentos > 0);
+		numeroFinal = atoi(charNumero);
+	}
+	*numero = numeroFinal;
+	return retorno;
+}
 int esNumericaPositiva(char *cadena) {
 	int retorno = -1;
 	int i;
@@ -224,24 +302,6 @@ int esNumericaPositiva(char *cadena) {
 	}
 	return retorno;
 }
-//int esId(int numero, int limite) {
-//	int retorno = -1;
-//	int i;
-//	char cadena[limite];
-//	cadena = itoa(numero);
-//	int flag = 0;
-//	if (cadena != NULL && limite > 0) {
-//		retorno = 1;
-//		for (i = 0; i < limite && cadena[i] != '\0'; i++) {
-//			if (cadena[i] < '0' || cadena[i] > '9') {
-//				retorno = 0;
-//				break;
-//			}
-//
-//		}
-//	}
-//	return retorno;
-//}
 /**
  *brief Obtiene un string, reemplaza los caracteres correspondientes
  *brief al enter si los encuentra, y los reemplaza con el caracter terminante
@@ -318,33 +378,6 @@ int isName(char *string) { //retorna 1 si es alfa, 0 si no
 	return retorno;
 }
 
-//int getFlycode(char *string, int len, char *mensaje, char *mensajeError,
-//		int reintentos) {
-//	int retorno = -1;
-//	char bufferString[len];
-//
-//	if (string != NULL && len > 0) {
-//		printf("%s", mensaje);
-//		do {
-//			if (getString(bufferString, sizeof(bufferString)) == 0
-//					&& (isName(bufferString) == 1 || esNumericaPositiva(bufferString) == 1)) {
-//				strncpy(string, bufferString, sizeof(bufferString));
-//				retorno = 0;
-//				break;
-//
-//			} else {
-//				reintentos--;
-//				if (reintentos > 0) {
-//					printf("%s", mensajeError);
-//				} else {
-//					printf("\n-Se quedo sin reintentos-\n");
-//				}
-//			}
-//		} while (reintentos > 0);
-//	}
-//	return retorno;
-//}
-
 int isFlycode(char *string) { // retorna 1 si es flycode, 0 si no
 	int retorno = 1;
 	int i = 0;
@@ -369,18 +402,17 @@ int isFlycode(char *string) { // retorna 1 si es flycode, 0 si no
 	return retorno;
 }
 
-
 int getFlyCode(char *string, int len, char *mensaje, char *mensajeError,
 		int reintentos) {
 	int retorno = -1;
-	char bufferString[len];
+	char flyCodeStr[len];
 
 	if (string != NULL && mensaje != NULL && mensajeError != NULL && len > 0) {
-			do {
-				printf("%s", mensaje);
-			if (getString(bufferString, sizeof(bufferString)) == 0
-					&& isFlycode(bufferString) == 1) {
-				strcpy(string, bufferString);
+		do {
+			printf("%s", mensaje);
+			if (getString(flyCodeStr, sizeof(flyCodeStr)) == 0
+					&& isFlycode(flyCodeStr) == 1) {
+				strcpy(string, flyCodeStr);
 				retorno = 0;
 				break;
 
@@ -394,5 +426,66 @@ int getFlyCode(char *string, int len, char *mensaje, char *mensajeError,
 			}
 		} while (reintentos > 0);
 	}
+	return retorno;
+}
+int getStatusFlight(char *string, char *mensaje, char *mensajeError,
+		int reintentos) {
+	int retorno = -1;
+	char statusFlightStr[11];
+
+	if (string != NULL && mensaje != NULL && mensajeError != NULL) {
+		do {
+			printf("%s", mensaje);
+			if (getString(statusFlightStr, sizeof(statusFlightStr)) == 0
+					&& isStatusFlight(statusFlightStr) == 1) {
+				strcpy(string, statusFlightStr);
+				retorno = 0;
+				break;
+
+			} else {
+				reintentos--;
+				if (reintentos > 0) {
+					printf("%s", mensajeError);
+				} else {
+					printf("\n-Se quedo sin reintentos-\n");
+				}
+			}
+		} while (reintentos > 0);
+	}
+	return retorno;
+}
+
+int isStatusFlight(char *string) { // retorna 1 si es statusflight, 0 si no;
+	int retorno = -1;
+
+	if (string != NULL) {
+
+		if(stricmp(string, "En vuelo") == 0 || strcmp(string, "Aterrizado") == 0 ||  strcmp(string, "En Horario") == 0 || strcmp(string, "Demorado") == 0){
+			retorno = 1;
+		} else{
+			retorno = 0;
+		}
+
+
+
+	}
+	return retorno;
+}
+
+int getTypePassengerChar(char *string, char *mensaje, char *mensajeError, int reintentos){
+	int retorno = -1;
+	char typePassengerStr[15];
+	int typePassenger;
+
+	if (string != NULL && mensaje != NULL && mensajeError != NULL) {
+		if (utn_getNumero(&typePassenger, mensaje, mensajeError,
+				1, 3, reintentos) == 0) {
+			if(Passenger_IntToTypePassenger(typePassenger, typePassengerStr) == 0){
+				strcpy(string, typePassengerStr);
+				retorno = 0;
+			}
+		}
+	}
+
 	return retorno;
 }
