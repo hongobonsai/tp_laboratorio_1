@@ -6,7 +6,25 @@
  */
 
 #include "Passenger.h"
-#include "Utn.h"
+
+int Passenger_findPassengerById(LinkedList* pArrayListPassenger, int idBuscado){
+	int retorno=-1;
+	int len;
+	int auxId;
+	Passenger* punteroUnPasajero=NULL;
+	if(pArrayListPassenger!=NULL){
+		len=ll_len(pArrayListPassenger);
+		for(int i=0;i<len;i++){
+			punteroUnPasajero=(Passenger*)ll_get(pArrayListPassenger, i);
+			Passenger_getId(punteroUnPasajero, &auxId);
+			if(auxId == idBuscado){
+				retorno = ll_indexOf(pArrayListPassenger, punteroUnPasajero);
+				break;
+			}
+		}
+	}
+	return retorno;
+}
 
 Passenger* Passenger_pedirDatosYCrearUnPasajero(char *idUnico) {
 	char nombreStr[51];
@@ -16,7 +34,6 @@ Passenger* Passenger_pedirDatosYCrearUnPasajero(char *idUnico) {
 	char typePassengerStr[15];
 	char statusFlightStr[11];
 	Passenger *punteroAUnPasajero = NULL;
-	//revisar tema reintentos del float
 	if (getEspaciosYLetras(nombreStr, 51,
 			"\nIntroduzca el nombre del pasajero: ",
 			"\n-Ingrese un nombre valido-\n", 5) == 0
@@ -199,7 +216,6 @@ Passenger* Passenger_new() {
 Passenger* Passenger_newParametros(char *idStr, char *nombreStr,
 		char *apellidoStr, char *precioStr, char *flyCodeStr,
 		char *typePassengerStr, char *statusFlightStr) {
-
 	Passenger *punteroAUnPasajero;
 	int auxIdAtoi;
 	float auxPrecioAtof;
@@ -224,7 +240,6 @@ Passenger* Passenger_newParametros(char *idStr, char *nombreStr,
 								auxTypePassengerAtoi) != 0
 						|| Passenger_setStatusFlight(punteroAUnPasajero,
 								statusFlightStr) != 0) {
-
 					Passenger_delete(punteroAUnPasajero);
 					punteroAUnPasajero = NULL;
 
@@ -242,11 +257,6 @@ void Passenger_delete(Passenger *this) {
 	}
 }
 
-//typePassengerStrFile, statusFlightStrFile);
-//		if (ll_add(pArrayListPassenger, auxPasajero) != -1 && esNumericaPositiva(idStrFile) == 0 && isName(nombreStrFile) == 1 && validateFloatChar(precioStrFile) == 0 &&
-//				isFlycode(flyCodeStrFile) == 1 && isName(typePassengerStrFile) == 1 && esNumericaPositiva(statusFlightStrFile) == 0) {
-//
-//		}
 int Passenger_setId(Passenger *this, int id) {
 	int retorno = -1;
 	if (this != NULL && id > 0) {
@@ -360,3 +370,129 @@ int Passenger_getStatusFlight(Passenger *this, char *statusFlight) {
 	return retorno;
 }
 
+	int Passenger_sortById(void* pPrimerPasajero, void* pSegundoPasajero){
+	int retorno=-1;
+	int idPrimerPasajero;
+	int idSegundoPasajero;
+	Passenger* primerPasajero;
+	Passenger* segundoPasajero;
+	if (pPrimerPasajero != NULL && pSegundoPasajero != NULL) {
+		primerPasajero=(Passenger*)pPrimerPasajero;
+			segundoPasajero=(Passenger*)pSegundoPasajero;
+			Passenger_getId(primerPasajero, &idPrimerPasajero);
+			Passenger_getId(segundoPasajero, &idSegundoPasajero);
+			if(idPrimerPasajero>idSegundoPasajero){
+				retorno=1;
+			}
+			else{
+				if(idPrimerPasajero==idSegundoPasajero){
+					retorno=0;
+				}
+			}
+	}
+	return retorno;
+}
+int Passenger_sortByNombre(void* pPrimerPasajero, void* pSegundoPasajero){
+	int retorno;
+	char nombrePrimerPasajero[51];
+	char nombreSegundoPasajero[51];
+	Passenger* PrimerPasajero;
+	Passenger* SegundoPasajero;
+	if (pPrimerPasajero != NULL && pSegundoPasajero != NULL) {
+		PrimerPasajero=(Passenger*)pPrimerPasajero;
+			SegundoPasajero=(Passenger*)pSegundoPasajero;
+			Passenger_getNombre(PrimerPasajero, nombrePrimerPasajero);
+			Passenger_getNombre(SegundoPasajero, nombreSegundoPasajero);
+			retorno=strcmp(nombrePrimerPasajero,nombreSegundoPasajero);
+	}
+	return retorno;
+}
+int Passenger_sortByApellido(void* pPrimerPasajero, void* pSegundoPasajero){
+	int retorno;
+	char apellidoPrimerPasajero[51];
+	char apellidoSegundoPasajero[51];
+	Passenger* PrimerPasajero;
+	Passenger* SegundoPasajero;
+	if (pPrimerPasajero != NULL && pSegundoPasajero != NULL) {
+		PrimerPasajero=(Passenger*)pPrimerPasajero;
+			SegundoPasajero=(Passenger*)pSegundoPasajero;
+			Passenger_getApellido(PrimerPasajero, apellidoPrimerPasajero);
+			Passenger_getApellido(SegundoPasajero, apellidoSegundoPasajero);
+			retorno=strcmp(apellidoPrimerPasajero,apellidoSegundoPasajero);
+	}
+	return retorno;
+}
+int Passenger_sortByPrecio(void* pPrimerPasajero, void* pSegundoPasajero){
+	int retorno=-1;
+	float precioPrimerPasajero;
+	float precioSegundoPasajero;
+	Passenger* primerPasajero;
+	Passenger* segundoPasajero;
+	if (pPrimerPasajero != NULL && pSegundoPasajero != NULL) {
+		primerPasajero=(Passenger*)pPrimerPasajero;
+			segundoPasajero=(Passenger*)pSegundoPasajero;
+			Passenger_getPrecio(primerPasajero, &precioPrimerPasajero);
+			Passenger_getPrecio(segundoPasajero, &precioSegundoPasajero);
+			if(precioPrimerPasajero>precioSegundoPasajero){
+				retorno=1;
+			}
+			else{
+				if(precioPrimerPasajero==precioSegundoPasajero){
+					retorno=0;
+				}
+			}
+	}
+	return retorno;
+}
+int Passenger_sortByFlycode(void* pPrimerPasajero, void* pSegundoPasajero){
+	int retorno;
+	char flycodePrimerPasajero[51];
+	char flycodeSegundoPasajero[51];
+	Passenger* PrimerPasajero;
+	Passenger* SegundoPasajero;
+	if (pPrimerPasajero != NULL && pSegundoPasajero != NULL) {
+		PrimerPasajero=(Passenger*)pPrimerPasajero;
+			SegundoPasajero=(Passenger*)pSegundoPasajero;
+			Passenger_getFlyCode(PrimerPasajero, flycodePrimerPasajero);
+			Passenger_getFlyCode(SegundoPasajero, flycodeSegundoPasajero);
+			retorno=strcmp(flycodePrimerPasajero,flycodeSegundoPasajero);
+	}
+	return retorno;
+}
+int Passenger_sortByTypePassenger(void* pPrimerPasajero, void* pSegundoPasajero){
+	int retorno=-1;
+	int typePassengerPrimerPasajero;
+	int typePassengerSegundoPasajero;
+	Passenger* primerPasajero;
+	Passenger* segundoPasajero;
+	if (pPrimerPasajero != NULL && pSegundoPasajero != NULL) {
+		primerPasajero=(Passenger*)pPrimerPasajero;
+			segundoPasajero=(Passenger*)pSegundoPasajero;
+			Passenger_getTypePassenger(primerPasajero, &typePassengerPrimerPasajero);
+			Passenger_getTypePassenger(segundoPasajero, &typePassengerSegundoPasajero);
+			if(typePassengerPrimerPasajero>typePassengerSegundoPasajero){
+				retorno=1;
+			}
+			else{
+				if(typePassengerPrimerPasajero==typePassengerSegundoPasajero){
+					retorno=0;
+				}
+			}
+	}
+	return retorno;
+}
+int Passenger_sortByStatusFlight(void* pPrimerPasajero, void* pSegundoPasajero){
+	int retorno;
+	char statusFlightPrimerPasajero[51];
+	char statusFlightSegundoPasajero[51];
+	Passenger* PrimerPasajero;
+	Passenger* SegundoPasajero;
+	if (pPrimerPasajero != NULL && pSegundoPasajero != NULL) {
+		PrimerPasajero=(Passenger*)pPrimerPasajero;
+			SegundoPasajero=(Passenger*)pSegundoPasajero;
+			Passenger_getStatusFlight(PrimerPasajero, statusFlightPrimerPasajero);
+			Passenger_getStatusFlight(SegundoPasajero, statusFlightSegundoPasajero);
+			retorno=strcmp(statusFlightPrimerPasajero,statusFlightSegundoPasajero);
+	}
+	return retorno;
+}

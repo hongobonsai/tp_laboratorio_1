@@ -32,61 +32,109 @@
 int main() {
 	setbuf(stdout, NULL);
 	int option = 0;
-	char floatchar[11];
-	int retorno;
-
-	//ACORDARSE QUE FUNCIONA MEDIO PARA EL ORTO. (ROMPEN TODAS LAS FUNCIONES.) PERO HEY, LEVANTA LOS 1000
-
+	int flagCargarAlgo = 0; //0 Para nada cargado, 1 Para Cargado desde add, 2 para Cargado desde archivo
+	int flagGuardarAlgo = 0; //0 para nada Guardado, 1 Para Guardado csv, 2 Para Guardaro desde bin
+	int llLen;
+	int confirmacionExit = 0;
 	LinkedList *listaPasajeros = ll_newLinkedList();
 	do {
 		option = printMenuPrincipal();
 		switch (option) {
-		case 1://LISTO
-			controller_loadFromText(DATA_CSV, listaPasajeros);
-			break;
-		case 2:
-			controller_loadFromBinary(DATA_BIN, listaPasajeros);
-			break;
-		case 3://LISTO
-			if(controller_addPassenger(listaPasajeros)==0){
-				printf("\n-Se agregó al pasajero correctamente-");
-			} else{
-				printf("\n-No se pudo agregar al pasajero-");
+		case 1: //LISTO
+			if (flagCargarAlgo == 0) {
+				if (controller_loadFromText(DATA_CSV, listaPasajeros) == 0) {
+					flagCargarAlgo = 2;
+				}
+			} else {
+				printf("\nNo se pudo cargar el archivo CSV\n");
 			}
 			break;
-		case 4:
-//			retorno = getValidFloatChar(floatchar,
-//								"\nIntroduzca el precio del pasaje del pasajero: ",
-//								"\n-Ingrese un precio valido-\n", 8);
-//			printf("%d %s", retorno, floatchar);
-			controller_editPassenger(listaPasajeros);
+		case 2: //LISTO
+			if (flagCargarAlgo == 0) {
+				if (controller_loadFromBinary(DATA_BIN, listaPasajeros) == 0) {
+					flagCargarAlgo = 2;
+				}
+			} else {
+				printf("\nNo se pudo cargar el archivo BIN\n");
+			}
 			break;
-		case 5:
-//			for(int i = 0; i <ll_len(listaPasajeros); i++){
-//				Passenger* pLinked;
-//				pLinked = (Passenger*)ll_get(listaPasajeros, i);
-//				printf("espacio LL: %d, %d %s %s %s %f %d %s", i, pLinked->id, pLinked->nombre, pLinked->apellido, pLinked->flyCode, pLinked->precio, pLinked->typePassenger,pLinked->statusFlight);
-//			}
-			controller_removePassenger(listaPasajeros);
+		case 3: //LISTO
+			if (controller_addPassenger(listaPasajeros) == 0) {
+				printf("\n-Se agregó al pasajero correctamente-\n");
+				flagCargarAlgo = 1;
+			} else {
+				printf("\n-No se pudo agregar al pasajero-\n");
+			}
 			break;
-		case 6:
-			controller_ListPassenger(listaPasajeros);
+		case 4: //LISTO
+			if (flagCargarAlgo != 0) {
+				if (controller_editPassenger(listaPasajeros) == -1) {
+					printf("\n-No se pudo agregar al pasajero-\n");
+				}
+			} else {
+				printf(
+						"\n-Debe haber algo cargado para realizar una modificacion!-\n");
+			}
+			break;
+		case 5: //LISTO
+			if (flagCargarAlgo != 0) {
+				controller_removePassenger(listaPasajeros);
+				llLen = ll_isEmpty(listaPasajeros);
+			} else {
+				printf("\n-Debe haber algo cargado para realizar una baja!-\n");
+			}
+			if (llLen == 1) {
+				printf("\n-La lista de pasajeros ahora se encuentra vacia.-\n");
+				flagCargarAlgo = 0;
+			}
+			break;
+		case 6: //LISTO
+			if (flagCargarAlgo != 0) {
+				controller_ListPassenger(listaPasajeros);
+			} else {
+				printf("\n-No hay pasajeros cargados en la lista");
+			}
 			break;
 		case 7:
-			controller_sortPassenger(listaPasajeros);
+			if (flagCargarAlgo != 0) {
+				controller_sortPassenger(listaPasajeros);
+			} else {
+				printf("\n-No hay pasajeros cargados en la lista");
+			}
 			break;
-		case 8:
-			controller_saveAsText(DATA_CSV, listaPasajeros);
+		case 8: //LISTO
+			if (flagCargarAlgo == 2) {
+				controller_saveAsText(DATA_CSV, listaPasajeros);
+				controller_saveAsBinary(DATA_BIN, listaPasajeros); //Permite que no esten desfasados los archivos. al guardar uno, se actualiza el otro
+				flagGuardarAlgo = 1;
+			} else {
+				printf(
+						"\n-No se puede guardar sin haber cargado antes algun archivo-\n");
+			}
 			break;
-		case 9:
-			controller_saveAsBinary(DATA_BIN, listaPasajeros);
+		case 9: //LISTO
+			if (flagCargarAlgo == 2) {
+				controller_saveAsBinary(DATA_BIN, listaPasajeros);
+				controller_saveAsText(DATA_CSV, listaPasajeros); //Permite que no esten desfasados los archivos. al guardar uno, se actualiza el otro
+				flagGuardarAlgo = 2;
+			} else {
+				printf(
+						"\n-No se puede guardar sin haber cargado antes algun archivo-\n");
+			}
 			break;
 		case 10:
-			printf("CHAU");
+			if (flagGuardarAlgo == 0) {
+				utn_getNumero(&confirmacionExit,
+						"\n-¡No se realizó ningun guardado. Se perderan los cambios-\n  Desea Finalizar? ([1]- SI, [2]- NO)",
+						"\n-Ingrese una opción valida-", 1, 2, 5);
+			} else {
+				confirmacionExit = 1;
+			}
 			break;
-
 		}
-	} while (option != 10);
+	} while (option != 10 || confirmacionExit != 1);
+	printf("\n--EJECUCION FINALIZADA--\n");
+	ll_deleteLinkedList(listaPasajeros);
 	return 0;
 }
 

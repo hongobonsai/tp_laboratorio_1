@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "LinkedList.h"
 #include "Passenger.h"
-#include "Utn.h"
+#include "Inputs.h"
 #include "parser.h"
 
 /** \brief Parsea los datos los datos de los pasajeros desde el archivo data.csv (modo texto).
@@ -24,12 +24,8 @@ int parser_PassengerFromText(FILE *pFile, LinkedList *pArrayListPassenger) {
 	char flyCodeStrFile[8];
 	char typePassengerStrFile[15];
 	char statusFlightStrFile[11];
-
 	if (pFile != NULL && pArrayListPassenger != NULL) {
-		fscanf(pFile, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]\n", idStrFile,
-				nombreStrFile, apellidoStrFile, precioStrFile, flyCodeStrFile,
-				typePassengerStrFile, statusFlightStrFile);
-		while (!feof(pFile)) {
+		do {
 			if (fscanf(pFile, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]\n",
 					idStrFile, nombreStrFile, apellidoStrFile, precioStrFile,
 					flyCodeStrFile, typePassengerStrFile, statusFlightStrFile)
@@ -55,7 +51,7 @@ int parser_PassengerFromText(FILE *pFile, LinkedList *pArrayListPassenger) {
 				break;
 				retorno = -2; // Avisa que fallo al leer algun dato.
 			}
-		}
+		} while (!feof(pFile));
 	}
 	fclose(pFile);
 	return retorno;
@@ -68,19 +64,22 @@ int parser_PassengerFromText(FILE *pFile, LinkedList *pArrayListPassenger) {
  * \return int
  *
  */
-int parser_PassengerFromBinary(FILE *pFile, LinkedList *pArrayListPassenger) {
+
+int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger){
 	int retorno = -1;
-	Passenger *auxPasajero;
-	if (pFile != NULL && pArrayListPassenger != NULL) {
-		while (!feof(pFile)) {
-			auxPasajero = Passenger_new();
-			fread(auxPasajero, sizeof(Passenger), 1, pFile);
-			if (ll_add(pArrayListPassenger, auxPasajero) != -1) {
-				retorno = 0;
-			} else {
-				Passenger_delete(pArrayListPassenger);
+	Passenger* auxPasajero;
+	if(pFile != NULL && pArrayListPassenger != NULL) {
+		do {
+			if((auxPasajero = Passenger_new()) != NULL && fread(auxPasajero, sizeof(Passenger), 1, pFile) == 1) {
+					ll_add(pArrayListPassenger, auxPasajero);
+					retorno = 0;
+			}else {
+				if(auxPasajero != NULL) {
+					Passenger_delete(auxPasajero);
+					}
 			}
-		}
+		} while(!feof(pFile));
+		fclose(pFile);
 	}
 	return retorno;
 }
@@ -97,7 +96,6 @@ int parser_LastIdFromText(char *path, char *ultimoId) {
 		retorno = 0;
 	}
 	fclose(pFile);
-	printf("\n ULTIMO ID %s", auxUltimoId);
 
 	strcpy(ultimoId, auxUltimoId);
 	return retorno;

@@ -9,4 +9,3 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger);
 int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger);
 
 int controller_saveLastId(char* path, char* idParaAsignar);
-
