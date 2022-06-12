@@ -92,22 +92,28 @@ int main() {
 			break;
 		case 8: //LISTO
 			if (flagCargarAlgo == 2) {
-				controller_saveAsText(DATA_CSV, listaPasajeros);
-				controller_saveAsBinary(DATA_BIN, listaPasajeros); //Permite que no esten desfasados los archivos. al guardar uno, se actualiza el otro
-				flagGuardarAlgo = 1;
+				if(controller_saveAsText(DATA_CSV, listaPasajeros) == 0){
+					controller_saveAsBinary(DATA_BIN, listaPasajeros); //Permite que no esten desfasados los archivos. al guardar uno, se actualiza el otro
+					printf("\n-Archivo guardado correctamente-\n");
+					flagGuardarAlgo = 1;
+				}else {
+					printf("\n-No se pudo guardar el archivo-\n");
+				}
 			} else {
-				printf(
-						"\n-No se puede guardar sin haber cargado antes algun archivo-\n");
+				printf("\n-No se puede guardar sin haber cargado antes algun archivo-\n");
 			}
 			break;
 		case 9: //LISTO
 			if (flagCargarAlgo == 2) {
-				controller_saveAsBinary(DATA_BIN, listaPasajeros);
-				controller_saveAsText(DATA_CSV, listaPasajeros); //Permite que no esten desfasados los archivos. al guardar uno, se actualiza el otro
-				flagGuardarAlgo = 2;
+				if(controller_saveAsBinary(DATA_BIN, listaPasajeros) == 0){
+					controller_saveAsText(DATA_CSV, listaPasajeros); //Permite que no esten desfasados los archivos. al guardar uno, se actualiza el otro
+					printf("\n-Archivo guardado correctamente-\n");
+					flagGuardarAlgo = 2;
+				} else {
+					printf("\n-No se pudo guardar el archivo-\n");
+				}
 			} else {
-				printf(
-						"\n-No se puede guardar sin haber cargado antes algun archivo-\n");
+				printf("\n-No se puede guardar sin haber cargado antes algun archivo-\n");
 			}
 			break;
 		case 10:
