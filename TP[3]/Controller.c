@@ -161,7 +161,7 @@ int controller_editPassenger(LinkedList *pArrayListPassenger) {
 							break;
 							case 4:
 							if (getFlyCode(flyCode, 8,
-									"\nIntroduzca el nuevo codigo de vuelo del pasajero: ",
+									"\nIntroduzca el nuevo codigo de vuelo del pasajero [Alfanumerico maximo 7 digitos]: ",
 									"\n-Ingrese un codigo de vuelo valido-\n",
 									5) == 0) {
 								if (Passenger_setFlyCode(punteroUnPasajero,
@@ -174,7 +174,7 @@ int controller_editPassenger(LinkedList *pArrayListPassenger) {
 							break;
 							case 5:
 							if (utn_getNumero(&typePassenger,
-									"\nIntroduzca el nuevo tipo de pasajero: ", // agregar 1 para tanto etc..
+									"\nIntroduzca el nuevo tipo de pasajero [1- EconomyClass, 2- EjecutiveClass, 3- FirstClass]: ",
 									"\n-Ingrese un tipo de pasajero valido-\n",
 									1, 3, 5) == 0) {
 								if (Passenger_setTypePassenger(
@@ -188,7 +188,7 @@ int controller_editPassenger(LinkedList *pArrayListPassenger) {
 							break;
 							case 6:
 							if (getStatusFlight(statusFlight,
-									"\nIntroduzca el nuevo estado de vuelo del pasajero: ",
+									"\nIntroduzca el estado de vuelo del pasajero: \n['En horario', 'Demorado', 'En vuelo', 'Aterrizado'] ",
 									"\n-Ingrese un estado de vuelo valido-\n",
 									5) == 0) {
 								if (Passenger_setStatusFlight(punteroUnPasajero,
@@ -446,7 +446,7 @@ int controller_saveAsBinary(char *path, LinkedList *pArrayListPassenger) {
 	}
 	return retorno;
 }
-/** \brief Guarda el ultimo id de los pasajeros en el archivo dataId.csv.
+/** \brief Guarda el ultimo id de los pasajeros en el archivo data_Id.csv.
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*

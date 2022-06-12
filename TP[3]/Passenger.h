@@ -25,7 +25,6 @@ typedef struct
 Passenger* Passenger_new();
 Passenger* Passenger_newParametros(char *idStr, char *nombreStr, char *apellidoStr, char *precioStr, char *flyCodeStr, char *typePassengerStr, char *statusFlightStr);
 void Passenger_delete();
-Passenger* Passenger_pedirDatosYCrearUnPasajero(char * idUnico);
 
 int Passenger_setId(Passenger* this,int id);
 int Passenger_getId(Passenger* this,int* id);

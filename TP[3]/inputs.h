@@ -12,10 +12,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "Passenger.h"
 
 int printMenuPrincipal();
 int printMenuModificaciones();
 int printMenuSort();
+
+Passenger* Passenger_pedirDatosYCrearUnPasajero(char * idUnico);
 
 int isName(char* string);
 int utn_getNumero(int* pResultado, char* mensaje, char* mensajeError, int minimo, int maximo, int reintentos);

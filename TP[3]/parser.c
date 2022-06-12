@@ -6,7 +6,8 @@
 #include "parser.h"
 
 /** \brief Parsea los datos los datos de los pasajeros desde el archivo data.csv (modo texto).
- *
+ * funciona como intermediario entre el archivo csv, las funciones controller y los setters
+ * crea o elimina un pasajero, dependiendo de los retornos de las demas funciones.
  * \param path char*
  * \param pArrayListPassenger LinkedList*
  * \return int
@@ -57,14 +58,14 @@ int parser_PassengerFromText(FILE *pFile, LinkedList *pArrayListPassenger) {
 	return retorno;
 }
 
-/** \brief Parsea los datos los datos de los pasajeros desde el archivo data.csv (modo binario).
- *
+/** \brief Parsea los datos los datos de los pasajeros desde el archivo data.bin (modo binario).
+ * funciona como intermediario entre el archivo bin, las funciones controller y los setters
+ * crea o elimina un pasajero, dependiendo de los retornos de las demas funciones.
  * \param path char*
  * \param pArrayListPassenger LinkedList*
  * \return int
  *
  */
-
 int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger){
 	int retorno = -1;
 	Passenger* auxPasajero;
@@ -84,7 +85,12 @@ int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger){
 	return retorno;
 }
 
-//parser
+/** \brief Rescata el ultimo ID que se encuentra en el archivo data_Id.csv (modo texto).
+ * \param path char*
+ * \param char *ultimoId
+ * \return int
+ *
+ */
 int parser_LastIdFromText(char *path, char *ultimoId) {
 	int retorno = -1;
 	char auxUltimoId[51];

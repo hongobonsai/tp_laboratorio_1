@@ -7,20 +7,12 @@
 #include "inputs.h"
 #include "Passenger.h"
 
-/****************************************************
-    Menu:
-     1. Cargar los datos de los pasajeros desde el archivo data.csv (modo texto).
-     2. Cargar los datos de los pasajeros desde el archivo data.csv (modo binario).
-     3. Alta de pasajero
-     4. Modificar datos de pasajero
-     5. Baja de pasajero
-     6. Listar pasajeros
-     7. Ordenar pasajeros
-     8. Guardar los datos de los pasajeros en el archivo data.csv (modo texto).
-     9. Guardar los datos de los pasajeros en el archivo data.csv (modo binario).
-    10. Salir
-*****************************************************/
-
+/**
+*brief Imprime el menu principal y llama a getNumero para obtener la opcion requerida por el usuario
+*
+*
+* \return Devuelve la opcion ingresada
+*/
 int printMenuPrincipal(){
 
 		int auxOpcionMenuPrincipal;
@@ -41,7 +33,12 @@ int printMenuPrincipal(){
 		return auxOpcionMenuPrincipal;
 
 }
-
+/**
+*brief Imprime el menu de modificaciones y llama a getNumero para obtener la opcion requerida por el usuario
+*
+*
+* \return Devuelve la opcion ingresada
+*/
 int printMenuModificaciones(){
 		int auxOpcionMenuPrincipal;
 		printf("\n-INGRESE LA OPCIÓN QUE DESEE REALIZAR-\n");
@@ -58,6 +55,12 @@ int printMenuModificaciones(){
 		return auxOpcionMenuPrincipal;
 
 }
+/**
+*brief Imprime el menu de de ordenamiento y llama a getNumero para obtener la opcion requerida por el usuario
+*
+*
+* \return Devuelve la opcion ingresada
+*/
 int printMenuSort(){
 		int auxOpcionMenuPrincipal;
 		printf("\n-MENU DE ORDENAMIENTO-\n");
@@ -105,13 +108,12 @@ int validateWordChar(char string[]) {
 	return retorno;
 }
 /** \brief Obtiene un string, y valida si el string recibido es una palabra A-Z, a-z
- *
- * \param *cadena puntero a string
- * * \param *mensaje Recibe el mensaje a mostrar cuando se obtiene el dato
- * * \param *mensajeError Recibe el mensaje de error para cuando no es un dato valido
- * * \param len
- * \return Devuelve 0 si esta ok, -1 Si no pudo obtener el string
- */
+* \param *cadena puntero a string
+* \param *mensaje Recibe el mensaje a mostrar
+* \param *mensajeError Recibe el mensaje de error
+* \param len
+* \return Devuelve 0 si esta ok, -1 Si no pudo obtener el string
+*/
 int getValidWord(char *cadena, char *mensaje, char *mensajeError, int len) {
 	char auxCadena[len];
 	int validacion;
@@ -134,53 +136,15 @@ int getValidWord(char *cadena, char *mensaje, char *mensajeError, int len) {
 	strncpy(cadena, auxCadena, len);
 	return 0;
 }
-/** \brief Obtiene un string, y valida si el string recibido contiene solo caracteres numericos
- * y un ".", luego lo transforma en un flotante .float
- *
- * \param *numero puntero a float
- * * \param *mensaje Recibe el mensaje a mostrar cuando se obtiene el dato
- * * \param *mensajeError Recibe el mensaje de error para cuando no es un dato valido
- * * \param len
- * \return Devuelve 0 si esta ok, -1 Si fallo
- */
-
-
-//int getValidFloat(float *numero, char *mensaje, char *mensajeError, int len, int reintentos) {
-//	char charNumero[len];
-//	float numeroFinal;
-//	int retorno;
-//	if (mensaje != NULL && mensajeError != NULL && len > 0) {
-//		do {
-//			printf("%s", mensaje);
-//			fgets(charNumero, len, stdin);
-//			if (charNumero[strnlen(charNumero, 50) - 1] == '\n') {
-//				charNumero[strnlen(charNumero, 50) - 1] = '\0';
-//			}
-//			if (validateFloatChar(charNumero) == -1) {
-//				printf("%s", mensajeError);
-//				fflush(stdin);
-//				retorno = -1;
-//				reintentos--;
-//			} else {
-//				retorno = 0;
-//			}
-//		} while (retorno == -1 && reintentos > 0);
-//		numeroFinal = atof(charNumero);
-//	}
-//	*numero = numeroFinal;
-//	return retorno;
-//}
 /**
- * \brief Solicita un numero al usuario, leuego de verificarlo devuelve el resultado
- * \param pResultado Puntero al espacio de memoria donde se dejara el resultado de la funcion
- * \param mensaje Es el mensaje a ser mostrado
- * \param mensajeError Es el mensaje de Error a ser mostrado
- * \param minimo Es el numero maximo a ser aceptado
- * \param maximo Es el minimo minimo a ser aceptado
- * \return Retorna 0 si se obtuvo el numero y -1 si no
+ * \brief Solicita un float al usuario, leuego de verificarlo devuelve el resultado
+ * \param char *numeroChar
+ * \param char *mensaje Es el mensaje a ser mostrado
+ * \param char *mensajeError Es el mensaje de Error a ser mostrado
+ * \param int len Largo maximo del float
+ * \return 0 si se obtuvo el numero y -1 si no
  *
  */
-
 int getValidFloatChar(char *numeroChar, char *mensaje, char *mensajeError, int len) {
 	char charNumero[len];
 	int validacion;
@@ -203,7 +167,15 @@ int getValidFloatChar(char *numeroChar, char *mensaje, char *mensajeError, int l
 		strcpy(numeroChar, charNumero);
 		return validacion;
 	}
-
+/**
+ * \brief Solicita un numero al usuario, leuego de verificarlo devuelve el resultado
+ * \param float *numero
+ * \param char *mensaje Es el mensaje a ser mostrado
+ * \param char *mensajeError Es el mensaje de Error a ser mostrado
+ * \param int len Largo maximo del float
+ * \return 0 si se obtuvo el numero y -1 si no
+ *
+ */
 int getValidFloat(float *numero, char *mensaje, char *mensajeError, int len) {
 	char charNumero[len];
 	float numeroFinal;
@@ -329,6 +301,16 @@ int esNumerica(char *cadena, int limite) {
 	}
 	return retorno;
 }
+/**
+*brief Obtiene un numero entero y positivo
+*
+* \param int *numero
+* \param char *mensaje Es el mensaje a ser mostrado
+* \param char *mensajeError Es el mensaje de Error a ser mostrado
+* \param int len Largo maximo
+*  * \param int reintentos
+* \return Devuelve 0 si esta ok, -1 Si fallo
+*/
 int getValidPositiveInt(int *numero, char *mensaje, char *mensajeError, int len, int reintentos) {
 	char charNumero[len];
 	int numeroFinal;
@@ -354,6 +336,13 @@ int getValidPositiveInt(int *numero, char *mensaje, char *mensajeError, int len,
 	*numero = numeroFinal;
 	return retorno;
 }
+/**
+*brief Verifica si la cadena recibida es numerica y positiva, si contiene solo
+*los caracteres "1 al 9", "+" y "-"
+*
+* * \param *cadena
+* \return Devuelve 0 si esta ok, -1 Si fallo
+*/
 int esNumericaPositiva(char *cadena) {
 	int retorno = -1;
 	int i;
@@ -398,7 +387,16 @@ int getString(char *cadena, int longitud) {
 	}
 	return retorno;
 }
-
+/**
+*brief Obtiene un string, Verifica que sean solo espacios o letras A-Z
+*
+* \param char *string
+* \param int len
+* \param char *mensaje
+* \param char *mensajeError
+* \param int reintentos
+* \return Devuelve 0 si esta ok, -1 Si fallo
+*/
 int getEspaciosYLetras(char *string, int len, char *mensaje, char *mensajeError,
 		int reintentos) {
 	int retorno = -1;
@@ -425,7 +423,12 @@ int getEspaciosYLetras(char *string, int len, char *mensaje, char *mensajeError,
 	}
 	return retorno;
 }
-
+/**
+*brief Verifica si la cadena recibida Es un nombre
+*
+* * \param char *string
+* \return Devuelve 1 si es, 0 si no es
+*/
 int isName(char *string) { //retorna 1 si es alfa, 0 si no
 	int retorno = 1;
 	int i = 0;
@@ -445,7 +448,12 @@ int isName(char *string) { //retorna 1 si es alfa, 0 si no
 
 	return retorno;
 }
-
+/**
+*brief Verifica si la cadena recibida Es un Flycode
+*
+* * \param char *string
+* \return Devuelve 1 si es, 0 si no es
+*/
 int isFlycode(char *string) { // retorna 1 si es flycode, 0 si no
 	int retorno = 1;
 	int i = 0;
@@ -469,7 +477,16 @@ int isFlycode(char *string) { // retorna 1 si es flycode, 0 si no
 
 	return retorno;
 }
-
+/**
+*brief Obtiene un Flycode, lo devuelve por parametro
+*
+* \param char *string
+* \param int len
+* \param char *mensaje
+* \param char *mensajeError
+* \param int reintentos
+* \return Devuelve 0 si OK, -1 si fallo
+*/
 int getFlyCode(char *string, int len, char *mensaje, char *mensajeError,
 		int reintentos) {
 	int retorno = -1;
@@ -496,6 +513,16 @@ int getFlyCode(char *string, int len, char *mensaje, char *mensajeError,
 	}
 	return retorno;
 }
+/**
+*brief Obtiene un StatusFlight, lo devuelve por parametro
+*
+* \param char *string
+* \param int len
+* \param char *mensaje
+* \param char *mensajeError
+* \param int reintentos
+* \return Devuelve 0 si OK, -1 si fallo
+*/
 int getStatusFlight(char *string, char *mensaje, char *mensajeError,
 		int reintentos) {
 	int retorno = -1;
@@ -522,7 +549,12 @@ int getStatusFlight(char *string, char *mensaje, char *mensajeError,
 	}
 	return retorno;
 }
-
+/**
+*brief Verifica si la cadena recibida Es un estado de vuelo valido
+*
+* * \param char *string
+* \return Devuelve 1 si es, 0 si no es
+*/
 int isStatusFlight(char *string) { // retorna 1 si es statusflight, 0 si no;
 	int retorno = -1;
 
@@ -539,7 +571,16 @@ int isStatusFlight(char *string) { // retorna 1 si es statusflight, 0 si no;
 	}
 	return retorno;
 }
-
+/**
+*brief Obtiene un tipo de pasajero en formato string, y lo devuelve como char[]
+*
+* \param char *string
+* \param int len
+* \param char *mensaje
+* \param char *mensajeError
+* \param int reintentos
+* \return Devuelve 0 si OK, -1 si fallo
+*/
 int getTypePassengerChar(char *string, char *mensaje, char *mensajeError, int reintentos){
 	int retorno = -1;
 	char typePassengerStr[15];
@@ -558,3 +599,43 @@ int getTypePassengerChar(char *string, char *mensaje, char *mensajeError, int re
 	return retorno;
 }
 
+/** \brief Recibe el id a asignar a un pasajero, pide los datos de ese pasajero por input,
+ * y llama a Passenger_newParametros, pasandole los datos obtenidos
+* \param char *idUnico
+* \return retorna un puntero al pasajero
+*
+*/
+Passenger* Passenger_pedirDatosYCrearUnPasajero(char *idUnico) {
+	char nombreStr[51];
+	char apellidoStr[51];
+	char precioStr[8];
+	char flyCodeStr[8];
+	char typePassengerStr[15];
+	char statusFlightStr[11];
+	Passenger *punteroAUnPasajero = NULL;
+	if (getEspaciosYLetras(nombreStr, 51,
+			"\nIntroduzca el nombre del pasajero: ",
+			"\n-Ingrese un nombre valido-\n", 5) == 0
+			&& getEspaciosYLetras(apellidoStr, 51,
+					"\nIntroduzca el apellido del pasajero: ",
+					"\n-Ingrese un apellido valido-\n", 5) == 0
+			&& getValidFloatChar(precioStr,
+					"\nIntroduzca el precio del pasaje del pasajero:",
+					"\n-Ingrese un precio valido-\n", 8) == 0
+			&& getFlyCode(flyCodeStr, 8,
+					"\nIntroduzca el codigo de vuelo del pasajero [Alfanumerico maximo 7 digitos]: ",
+					"\n-Ingrese un codigo de vuelo valido-\n", 5) == 0
+			&& getTypePassengerChar(
+					typePassengerStr, //corregir
+					"\nIntroduzca el tipo de pasajero [1- EconomyClass, 2- EjecutiveClass, 3- FirstClass]: ",
+					"\n-Ingrese un tipo de pasajero valido-\n", 5) == 0
+			&& getStatusFlight(statusFlightStr,
+					"\nIntroduzca el estado de vuelo del pasajero:\n['En horario', 'Demorado', 'En vuelo', 'Aterrizado'] ",
+					"\n-Ingrese un estado de vuelo valido-\n", 5) == 0) {
+		punteroAUnPasajero = Passenger_newParametros(idUnico, nombreStr,
+				apellidoStr, precioStr, flyCodeStr, typePassengerStr,
+				statusFlightStr);
+	}
+
+	return punteroAUnPasajero;
+}

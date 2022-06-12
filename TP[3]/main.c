@@ -15,20 +15,6 @@
 #define EXECUTIVE_CLASS 2
 #define FIRST_CLASS 3
 
-/****************************************************
- Menu:
- 1. Cargar los datos de los pasajeros desde el archivo data.csv (modo texto).
- 2. Cargar los datos de los pasajeros desde el archivo data.csv (modo binario).
- 3. Alta de pasajero
- 4. Modificar datos de pasajero
- 5. Baja de pasajero
- 6. Listar pasajeros
- 7. Ordenar pasajeros
- 8. Guardar los datos de los pasajeros en el archivo data.csv (modo texto).
- 9. Guardar los datos de los pasajeros en el archivo data.csv (modo binario).
- 10. Salir
- *****************************************************/
-
 int main() {
 	setbuf(stdout, NULL);
 	int option = 0;
@@ -41,8 +27,9 @@ int main() {
 		option = printMenuPrincipal();
 		switch (option) {
 		case 1: //LISTO
-			if (flagCargarAlgo == 0) {
+			if (flagCargarAlgo != 2) {
 				if (controller_loadFromText(DATA_CSV, listaPasajeros) == 0) {
+					printf("\n-El archivo CSV ha sido cargado correctamente-\n");
 					flagCargarAlgo = 2;
 				}
 			} else {
@@ -50,8 +37,9 @@ int main() {
 			}
 			break;
 		case 2: //LISTO
-			if (flagCargarAlgo == 0) {
+			if (flagCargarAlgo != 2) {
 				if (controller_loadFromBinary(DATA_BIN, listaPasajeros) == 0) {
+					printf("\n-El archivo BIN ha sido cargado correctamente-\n");
 					flagCargarAlgo = 2;
 				}
 			} else {
