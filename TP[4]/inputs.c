@@ -417,7 +417,6 @@ int getEspaciosYLetras(char *string, int len, char *mensaje, char *mensajeError,
 					printf("%s", mensajeError);
 				} else {
 					printf("\n-Se quedo sin reintentos-\n");
-					retorno = -1;
 				}
 			}
 		} while (reintentos > 0);
@@ -508,7 +507,6 @@ int getFlyCode(char *string, int len, char *mensaje, char *mensajeError,
 					printf("%s", mensajeError);
 				} else {
 					printf("\n-Se quedo sin reintentos-\n");
-					retorno = -1;
 				}
 			}
 		} while (reintentos > 0);
@@ -535,6 +533,15 @@ int getStatusFlight(char *string, char *mensaje, char *mensajeError,
 			printf("%s", mensaje);
 			if (getString(statusFlightStr, sizeof(statusFlightStr)) == 0
 					&& isStatusFlight(statusFlightStr) == 1) {
+				for(int i = 0; i < strlen(statusFlightStr); i++){
+					if(i == 0){
+						statusFlightStr[i] = toupper(statusFlightStr[i]);
+					} else if (statusFlightStr[i-1] == ' '){
+						statusFlightStr[i] = toupper(statusFlightStr[i]);
+					} else{
+						statusFlightStr[i] = tolower(statusFlightStr[i]);
+					}
+				}
 				strcpy(string, statusFlightStr);
 				retorno = 0;
 				break;
@@ -545,7 +552,6 @@ int getStatusFlight(char *string, char *mensaje, char *mensajeError,
 					printf("%s", mensajeError);
 				} else {
 					printf("\n-Se quedo sin reintentos-\n");
-					retorno = -1;
 				}
 			}
 		} while (reintentos > 0);
@@ -563,7 +569,7 @@ int isStatusFlight(char *string) { // retorna 1 si es statusflight, 0 si no;
 
 	if (string != NULL) {
 
-		if(stricmp("En vuelo", string) == 0 || stricmp("Aterrizado", string) == 0 || stricmp("En Horario", string) == 0 || stricmp("Demorado", string) == 0){
+		if(stricmp(string, "En vuelo") == 0 || stricmp(string, "Aterrizado") == 0 ||  stricmp(string, "En Horario") == 0 || stricmp(string, "Demorado") == 0){
 			retorno = 1;
 		} else{
 			retorno = 0;
@@ -626,20 +632,18 @@ Passenger* Passenger_pedirDatosYCrearUnPasajero(char *idUnico) {
 					"\nIntroduzca el precio del pasaje del pasajero:",
 					"\n-Ingrese un precio valido-\n", 8) == 0
 			&& getFlyCode(flyCodeStr, 8,
-					"\nIntroduzca el codigo de vuelo del pasajero [Alfanumerico 7 digitos]: ",
+					"\nIntroduzca el codigo de vuelo del pasajero [Alfanumerico maximo 7 digitos]: ",
 					"\n-Ingrese un codigo de vuelo valido-\n", 5) == 0
 			&& getTypePassengerChar(
 					typePassengerStr, //corregir
 					"\nIntroduzca el tipo de pasajero [1- EconomyClass, 2- EjecutiveClass, 3- FirstClass]: ",
 					"\n-Ingrese un tipo de pasajero valido-\n", 5) == 0
 			&& getStatusFlight(statusFlightStr,
-					"\nIntroduzca el estado de vuelo del pasajero:\n['En horario', 'Demorado', 'En Vuelo', 'Aterrizado'] ",
+					"\nIntroduzca el estado de vuelo del pasajero:\n['En horario', 'Demorado', 'En vuelo', 'Aterrizado'] ",
 					"\n-Ingrese un estado de vuelo valido-\n", 5) == 0) {
 		punteroAUnPasajero = Passenger_newParametros(idUnico, nombreStr,
 				apellidoStr, precioStr, flyCodeStr, typePassengerStr,
 				statusFlightStr);
-	} else {
-		punteroAUnPasajero = NULL;
 	}
 
 	return punteroAUnPasajero;
