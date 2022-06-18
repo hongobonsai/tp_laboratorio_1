@@ -21,7 +21,7 @@ int tp_Uno_PrintPreciosDelMenu(float precioVueloAerolineas,
 		float precioTarjetaCreditoLatam, float precioBitcoinAerolineas,
 		float precioBitcoinLatam, float precioPorKmAerolineas,
 		float precioPorKmLatam, float diferenciaLatamAerolineas) {
-	printf("   \nPrecio Aerolineas: $%.2f\n"
+	printf("\n   Precio Aerolineas: $%.2f\n"
 			"   a) Precio con tarjeta de débito: $%.2f\n"
 			"   b) Precio con tarjeta de crédito: $%.2f\n"
 			"   c) Precio pagando con bitcoin: %.8f BTC\n"
