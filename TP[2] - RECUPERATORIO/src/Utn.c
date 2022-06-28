@@ -73,7 +73,18 @@ int isName(char *string) { //retorna 1 si es alfa, 0 si no
 
 	return retorno;
 }
-
+/**
+ * \brief Solicita un numero al usuario, luego de verificar que sea flotante (Que solo contenga numeros, ',' o '.'),
+ * devuelve el resultado por parametro
+ * \param float *pResultado
+ * \param char *pMensaje Es el mensaje a ser mostrado
+ * \param char *pMensajeError Es el mensaje de Error a ser mostrado
+ * \param int minimo valor minimo
+ * \param int maximo valor maximo
+ * \param int len Largo maximo del float
+ * \return 0 si se obtuvo el numero y -1 si no
+ *
+ */
 int utnGetFloat(float * pResultado, char*pMensaje, char*pMensajeError, int minimo, int maximo, int reintentos){
 	int retorno;
 	float buffer;

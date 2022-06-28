@@ -8,6 +8,14 @@
 
 #include "ArrayFlight.h"
 
+/** \brief Para indicar que todas las posiciones en la matriz están vacías,
+* esta función pone la bandera (isEmpty) en VERDADERO en todas las posiciones de la estructura
+* posición de la matriz
+*
+* \param list Flight* Puntero a la estructura
+* \param len Largo del array
+* \return int Devuelve (-1) si hay error [longitud no válida o puntero NULL] - (0) si está bien
+*/
 int initFlights(Flight list[], int len) {
 	int retorno = -1;
 	if (list != NULL && len > 0) {

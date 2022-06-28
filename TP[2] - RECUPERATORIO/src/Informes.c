@@ -121,30 +121,34 @@ int printPassengerByCode(Passenger *pasajeros, Flight *vuelos, int lenPasajeros)
 	}
 	return retorno;
 }
-
+/** \brief HARDCODEA valores de usuario a las dos estructuras (VUELOS Y PASAJEROS).
+* No elimina los pasajeros ya cargado, respeta la numeracion del ID
+*
+* \param list Passenger*
+* \param list Flight*
+* \return int
+*/
 int hardCodeFivePassenger(Passenger *pasajeros, Flight *vuelos, int lenPasajeros, int lenVuelos){
 	int retorno = -1;
 	int idAux;
 
+	idAux = calcularId();
+	if(addPassenger(pasajeros, LEN_PASAJEROS, idAux, "Jorge", "Perez", 3234.66, 1, "AJYV592") == 0 && addFlight(vuelos, "AJYV592", LEN_VUELOS, 1) == 0){
 		idAux = calcularId();
-		addPassenger(pasajeros, LEN_PASAJEROS, idAux, "Jorge", "Perez", 3234.66, 1, "AJYV592");
-		addFlight(vuelos, "AJYV592", LEN_VUELOS, 1);
-
-		idAux = calcularId();
-		addPassenger(pasajeros, LEN_PASAJEROS, idAux, "Fiorella", "Basualdo", 7665.50, 2, "JITZ305");
-		addFlight(vuelos, "JITZ305", LEN_VUELOS, 2);
-
-		idAux = calcularId();
-		addPassenger(pasajeros, LEN_PASAJEROS, idAux, "Gandalf", "Mithrandir", 8330.30, 3, "AJYV592");
-		addFlight(vuelos, "AJYV592", LEN_VUELOS, 1);
-
-		idAux = calcularId();
-		addPassenger(pasajeros, LEN_PASAJEROS, idAux, "Agustin", "Gauna", 4231.66, 1, "TATT744");
-		addFlight(vuelos, "TATT744", LEN_VUELOS, 3);
-
-		idAux = calcularId();
-		addPassenger(pasajeros, LEN_PASAJEROS, idAux, "Maria Jose", "Rodriguez", 9794.56, 3, "YGWL666");
-		addFlight(vuelos, "YGWL666", LEN_VUELOS, 1);
-
+		if(addPassenger(pasajeros, LEN_PASAJEROS, idAux, "Fiorella", "Basualdo", 7665.50, 2, "JITZ305") == 0 && addFlight(vuelos, "JITZ305", LEN_VUELOS, 2) == 0){
+			idAux = calcularId();
+			if(addPassenger(pasajeros, LEN_PASAJEROS, idAux, "Gandalf", "Mithrandir", 8330.30, 3, "AJYV592") == 0 && addFlight(vuelos, "AJYV592", LEN_VUELOS, 1) == 0){
+				idAux = calcularId();
+				if(addPassenger(pasajeros, LEN_PASAJEROS, idAux, "Agustin", "Gauna", 4231.66, 1, "TATT744") == 0 &&
+				addFlight(vuelos, "TATT744", LEN_VUELOS, 3) == 0){
+					idAux = calcularId();
+					if(addPassenger(pasajeros, LEN_PASAJEROS, idAux, "Maria Jose", "Rodriguez", 9794.56, 3, "YGWL666") == 0 &&
+					addFlight(vuelos, "YGWL666", LEN_VUELOS, 1) == 0){
+						retorno = 0;
+					}
+				}
+			}
+		}
+	}
 	return retorno;
 }

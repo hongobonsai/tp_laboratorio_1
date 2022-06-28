@@ -8,6 +8,14 @@
 
 #include "ArrayPassenger.h"
 
+/** \brief Para indicar que todas las posiciones en la matriz están vacías,
+* esta función pone la bandera (isEmpty) en VERDADERO en todas las posiciones
+* en el array
+* \param list Passenger* puntero al array de passajeros
+* \param len int
+* \returnint Retorna (-1) si hay algun Error [Longitud inválida, puntero NULL - (0) si está bien.
+*
+*/
 int initPassengers(Passenger *list, int lenght) {
 	int Return = -1;
 
@@ -79,7 +87,15 @@ int addPassenger(Passenger list[], int len, int id, char name[],
 
 	return retorno;
 }
-
+/** \brief Elimina a un pasajero por ID (pone la flag IsEmpty en 1)
+*
+* \param list Passenger*
+* \param len int
+* \param id int
+* \return Devuelve (-1) si hay un error [Longitud no válida, puntero NULL o si no se puede
+encontrar un pasajero] - (0) si está bien
+*
+*/
 int removePassenger(Passenger *list, int len, int id) {
 	int retorno = -1;
 	int passengerIndex;
@@ -93,7 +109,12 @@ int removePassenger(Passenger *list, int len, int id) {
 	}
 	return retorno;
 }
-
+/** \brief Imprime el contenido de la estructura de pasajeros
+ *
+* \param list Passenger*
+* \param length int
+* \return int
+*/
 int printPassenger(Passenger *list, int len) {
 
 	char tipoChar[12];
@@ -168,7 +189,14 @@ int findPassengerById(Passenger *list, int len, int id) {
 	}
 	return retorno;
 }
-
+/** \brief Ordenar los elementos en la matriz de pasajeros, el orden de los argumentos
+indicar orden ARRIBA o ABAJO
+*
+* \param list Passenger*
+* \param len int
+* \param order int [1] Indica ascendente - [0] Indica descendente
+* \return Devuelve (-1) si hay error [longitud no válida o puntero NULL] - (0) si está bien
+*/
 int sortPassengers(Passenger *list, int len, int order) {
 
 	int i;
@@ -234,13 +262,14 @@ int sortPassengers(Passenger *list, int len, int order) {
 	return retorno;
 }
 
-/** \brief Sort the elements in the array of passengers, the argument order indicate UP or DOWN order
- *
- * \param list Passenger*
- * \param len int
- * \param order int [1] indicate UP - [0] indicate DOWN
- * \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok*
- */
+/** \brief Ordena los elementos en la matriz de pasajeros segun FLYCODE, el orden de los argumentos
+indicar orden ARRIBA o ABAJO
+*
+* \param list Passenger*
+* \param len int
+* \param order int [1] Indica ascendente - [0] Indica descendente
+* \return Devuelve (-1) si hay error [longitud no válida o puntero NULL] - (0) si está bien
+*/
 int sortPassengersByCode(Passenger *list, int len, int order) {
 	int retorno;
 	int i;

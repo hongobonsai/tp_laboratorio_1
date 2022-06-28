@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <conio.h>
+
 
 #include "ArrayPassenger.h"
 #include "ArrayFlight.h"
@@ -218,7 +220,11 @@ int main(void) {
 				if(utn_getNumero(&opcionSubmenu,
 					"\n--HARDCODE FIVE PASSENGER--\n\n¿Desea Hardcodear 5 pasajeros?\n|ATENCION| Si utiliza esta opcion mas de una vez, los pasajeros se duplicaran...\n\n[PRESIONE 1-Si, 0-No]", "\n-Ingrese una opcion valida-\n",  0, 1, 3) == 0){
 					if(opcionSubmenu == 1){
-						hardCodeFivePassenger(pasajeros, vuelos, LEN_PASAJEROS, LEN_VUELOS);
+						if(hardCodeFivePassenger(pasajeros, vuelos, LEN_PASAJEROS, LEN_VUELOS) == 0){
+							printf("\n-SE CARGARON CORRECTAMENTE LOS 5 PASAJEROS-\n");
+						} else {
+							printf("\n-No se pudieron cargar los 5 pasajeros-\n");
+						}
 					} else {
 						printf("\n-Regresando al menu principal-\n");
 					}

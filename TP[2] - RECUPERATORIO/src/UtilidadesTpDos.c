@@ -13,12 +13,12 @@
 int menuPrincipal() {
 	int auxOpcionMenuPrincipal;
 	printf("\n------| MENU DE OPCIONES |------\n");
-	printf("\n1. ALTAS.");
-	printf("\n2. MODIFICAR.");
-	printf("\n3. BAJA");
-	printf("\n4. INFORMAR");
-	printf("\n5. CARGA FORZADA");
-	printf("\n0. EXIT\n");
+	printf("\n[1] ALTAS.");
+	printf("\n[2] MODIFICAR.");
+	printf("\n[3] BAJA");
+	printf("\n[4] INFORMAR");
+	printf("\n[5] CARGA FORZADA");
+	printf("\n[0] EXIT\n");
 	printf("\n--------------------------------");
 
 	utn_getNumero(&auxOpcionMenuPrincipal, "", "\nIngrese una opcion valida.", 0, 5, 5);
