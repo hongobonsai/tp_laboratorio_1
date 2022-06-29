@@ -71,7 +71,8 @@ int tp_Uno_MenuPrincipal(float kilometrosIngresados, float precioVueloAerolineas
 
 	return auxOpcionMenuPrincipal;
 }
-
+/// @brief hardcodea tres float
+/// @return Retorna 0 si finalizó la función.
 int utn_HardcodearTresFloat(float valorUno, float valorDos,
 		float valorTres, float *pValorUno, float *pValorDos, float *pValorTres){
 	int retorno = -1;

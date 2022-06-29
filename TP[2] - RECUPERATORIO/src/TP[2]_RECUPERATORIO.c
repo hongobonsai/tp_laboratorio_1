@@ -70,7 +70,7 @@ int main(void) {
 
 					printf("\n--MODIFICACIONES--\n");
 
-					if ((utn_getNumero(&opcionSubmenu, "\n-Desea ver la lista de pasajeros? ([1] Si, [2] No)-", "\n-Ingrese una opcion valida-", 1, 2, 5)) == 0) {
+					if ((utn_getNumero(&opcionSubmenu, "\n-Desea ver la lista de pasajeros? ([1] Si, [2] No)-", "\n-Ingrese una opcion valida-", 1, 2, 3)) == 0) {
 						if (opcionSubmenu == 1) {
 							printPassenger(pasajeros, LEN_PASAJEROS);
 						}
@@ -126,6 +126,8 @@ int main(void) {
 						} else {
 							printf("\n-El ID ingresado no existe-\n");
 						}
+					} else {
+						printf("\n-Regresando al menu principal-\n");
 					}
 				} else {
 					printf("\n-No se cargo ningun pasajero-\n");
@@ -136,7 +138,7 @@ int main(void) {
 
 					printf("\n--BAJAS--\n");
 
-					if ((utn_getNumero(&opcionSubmenu, "\n-Desea ver la lista de pasajeros? ([1] Si, [2] No)-", "\n-Ingrese una opcion valida-", 1, 2, 5)) == 0) {
+					if ((utn_getNumero(&opcionSubmenu, "\n-Desea ver la lista de pasajeros? ([1] Si, [2] No)-", "\n-Ingrese una opcion valida-", 1, 2, 3)) == 0) {
 							if (opcionSubmenu == 1) {
 								printPassenger(pasajeros, LEN_PASAJEROS);
 							}
@@ -218,7 +220,7 @@ int main(void) {
 				//No sabia que era lo correcto, si solo permitirle al usuario realizar una carga forzada por ejecucion, o que la realice las veces que quiera. En
 				//todo caso, deje que lo haga las veces que quiera, pero se repetiran los datos por obvias razones.
 				if(utn_getNumero(&opcionSubmenu,
-					"\n--HARDCODE FIVE PASSENGER--\n\n¿Desea Hardcodear 5 pasajeros?\n|ATENCION| Si utiliza esta opcion mas de una vez, los pasajeros se duplicaran...\n\n[PRESIONE 1-Si, 0-No]", "\n-Ingrese una opcion valida-\n",  0, 1, 3) == 0){
+					"\n--HARDCODE FIVE PASSENGER--\n\n¿Desea Hardcodear 5 pasajeros?\n|ATENCION| Si utiliza esta opcion mas de una vez por ejecucion, los pasajeros se duplicaran...\n\n[PRESIONE 1- Si, 0- No]", "\n-Ingrese una opcion valida-\n",  0, 1, 3) == 0){
 					if(opcionSubmenu == 1){
 						if(hardCodeFivePassenger(pasajeros, vuelos, LEN_PASAJEROS, LEN_VUELOS) == 0){
 							printf("\n-SE CARGARON CORRECTAMENTE LOS 5 PASAJEROS-\n");

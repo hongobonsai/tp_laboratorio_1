@@ -56,7 +56,7 @@ int main(void) {
 			case 1:
 				utn_getFloat(&kilometrosIngresados,
 						"\nIngrese los kilometros [MINIMO: 100Km, MAXIMO: 20000Km]: ",
-						"--INGRESE UNA DISTANCIA VALIDA--\n", 100, 20000, 5);
+						"--INGRESE UNA DISTANCIA VALIDA--\n", 100, 20000, 3);
 				break;
 			case 2:
 				do {
@@ -64,7 +64,7 @@ int main(void) {
 							"\n[1] Ingresar el precio de vuelo para Aerolineas.\n"
 									"[2] Ingresar el precio de vuelo para Latam.\n"
 									"[3] Volver al menu principal.\n",
-							"--INGRESE UNA OPCION VALIDA--\n", 1, 3, 0)
+							"--INGRESE UNA OPCION VALIDA--\n", 1, 3, 3)
 							== 0) {
 
 						switch (opcionSubMenu) {
@@ -82,7 +82,6 @@ int main(void) {
 							break;
 						}
 					}
-
 				} while (opcionSubMenu != 3);
 				break;
 			case 3:
