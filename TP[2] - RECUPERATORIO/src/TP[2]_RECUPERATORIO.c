@@ -218,7 +218,7 @@ int main(void) {
 				break;
 			case 5:
 				//No sabia que era lo correcto, si solo permitirle al usuario realizar una carga forzada por ejecucion, o que la realice las veces que quiera. En
-				//todo caso, deje que lo haga las veces que quiera, pero se repetiran los datos por obvias razones.
+				//t0do caso, deje que lo haga las veces que quiera, pero se repetiran los datos por obvias razones.
 				if(utn_getNumero(&opcionSubmenu,
 					"\n--HARDCODE FIVE PASSENGER--\n\n¿Desea Hardcodear 5 pasajeros?\n|ATENCION| Si utiliza esta opcion mas de una vez por ejecucion, los pasajeros se duplicaran...\n\n[PRESIONE 1- Si, 0- No]", "\n-Ingrese una opcion valida-\n",  0, 1, 3) == 0){
 					if(opcionSubmenu == 1){
@@ -232,11 +232,11 @@ int main(void) {
 					}
 				}
 				break;
-			case 0:
+			case 6:
 				printf("\n-EJECUCION FINALIZADA-\n");
 				break;
 			}
-		} while (opcionMenu != 0);
+		} while (opcionMenu != 6);
 
 	}
 

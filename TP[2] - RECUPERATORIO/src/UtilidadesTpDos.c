@@ -18,10 +18,10 @@ int menuPrincipal() {
 	printf("\n[3] BAJA");
 	printf("\n[4] INFORMAR");
 	printf("\n[5] CARGA FORZADA");
-	printf("\n[0] EXIT\n");
+	printf("\n[6] EXIT\n");
 	printf("\n--------------------------------");
 
-	utn_getNumero(&auxOpcionMenuPrincipal, "", "\nIngrese una opcion valida.", 0, 5, 5);
+	utn_getNumero(&auxOpcionMenuPrincipal, "", "\n-Ingrese una opcion valida-\n", 1, 6, 0);
 
 	return auxOpcionMenuPrincipal;
 }
